@@ -1,0 +1,32 @@
+<ion-app>
+  <ion-menu contentId="content">
+    <ion-header>
+      <ion-toolbar color="primary" style="padding: 10px 0 10px 10px">
+        <ion-avatar slot="start">
+          <ion-img src="https://i.ytimg.com/vi/SWTi2zCUJVE/maxresdefault.jpg"></ion-img>
+        </ion-avatar>
+        <ion-title>{{ user.uid }}</ion-title>
+        <ion-title>{{ user.email }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list *ngFor="let p of pages">
+        <ion-menu-toggle auto-hide="true">
+          <ion-item [routerLink]="p.url" routerDirection="root">
+            <ion-icon [name]="p.icon" slot="start">
+            </ion-icon>
+            {{ p.title }}
+          </ion-item>
+        </ion-menu-toggle>
+        
+      </ion-list>
+      <ion-menu-toggle>
+        <ion-item (click)="logOut()" routerDirection="root">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Log Out
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="content"></ion-router-outlet>
+</ion-app>
