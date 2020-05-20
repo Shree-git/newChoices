@@ -19,4 +19,7 @@
   <ion-item>
     {{ journal.detail }}
   </ion-item>
+  <ion-item>
+    <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="journal.date" class="ion-no-padding"></ion-datetime>
+  </ion-item>
 </ion-content>

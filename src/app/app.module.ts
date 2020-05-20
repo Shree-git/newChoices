@@ -10,7 +10,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth'
+import { AngularFireStorageModule } from '@angular/fire/storage'
 import { firebaseConfig } from './firebase'
+import { NgCalendarModule  } from 'ionic2-calendar';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,10 +23,13 @@ import { firebaseConfig } from './firebase'
     IonicModule.forRoot(), 
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireAuthModule],
+    AngularFireAuthModule,
+    AngularFireStorageModule,
+    NgCalendarModule],
   providers: [
     StatusBar,
     SplashScreen,
+  
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

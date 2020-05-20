@@ -2,17 +2,21 @@
   <ion-menu contentId="content">
     <ion-header>
       <ion-toolbar color="primary" style="padding: 10px 0 10px 10px">
-        <ion-avatar slot="start">
-          <ion-img src="https://i.ytimg.com/vi/SWTi2zCUJVE/maxresdefault.jpg"></ion-img>
-        </ion-avatar>
-        <ion-title>{{ user.uid }}</ion-title>
-        <ion-title>{{ user.email }}</ion-title>
+      
+          <ion-avatar slot="start" routerLink="/tabs/settings/account/display-photo">
+            
+              <ion-img src="getPhoto()"></ion-img>
+          
+          </ion-avatar>
+       
+        <!-- <ion-title>{{ getreturnUser().uid }}</ion-title>
+        <ion-title>{{ getreturnUser().email }}</ion-title> -->
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-list *ngFor="let p of pages">
         <ion-menu-toggle auto-hide="true">
-          <ion-item [routerLink]="p.url" routerDirection="root">
+          <ion-item [routerLink]="p.url" routerDirection="forward">
             <ion-icon [name]="p.icon" slot="start">
             </ion-icon>
             {{ p.title }}
@@ -20,6 +24,12 @@
         </ion-menu-toggle>
         
       </ion-list>
+      <ion-menu-toggle>
+        <ion-item routerLink="/tabs/settings" routerDirection="forward">
+          <ion-icon name="settings" slot="start"></ion-icon>
+          Settings
+        </ion-item>
+      </ion-menu-toggle>
       <ion-menu-toggle>
         <ion-item (click)="logOut()" routerDirection="root">
           <ion-icon name="log-out-outline" slot="start"></ion-icon>

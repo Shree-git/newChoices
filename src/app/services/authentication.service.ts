@@ -9,29 +9,51 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationService {
   userData: any
+  user: User
+  usersRef
   constructor(
     private afAuth: AngularFireAuth,
     private afStore: AngularFirestore,
     private router: Router
     ) {
-      this.afAuth.authState.subscribe(user => {
-        if (user) {
-          this.userData = user
-          localStorage.setItem('user', JSON.stringify(this.userData))
-          JSON.parse(localStorage.getItem('user'))
-        }else{
-          localStorage.setItem('user', null)
-          JSON.parse(localStorage.getItem('user'))
-        }
-      })
+      this.getUserInfo()
+      // this.usersRef = this.afStore.collection('users')
+      // this.usersRef = this.usersRef.where('uid','==', this.user.uid)
+      
+      // this.afAuth.authState.subscribe(user => {
+      //   if (user) {
+      //     this.userData = user
+      //     localStorage.setItem('user', JSON.stringify(this.userData))
+      //     JSON.parse(localStorage.getItem('user'))
+      //   }else{
+      //     localStorage.setItem('user', null)
+      //     JSON.parse(localStorage.getItem('user'))
+      //   }
+      // })
      }
 
      login(email, password){
-       return this.afAuth.signInWithEmailAndPassword(email, password)
+        return this.afAuth.signInWithEmailAndPassword(email, password).then(()=>{
+       
+          this.afAuth.onAuthStateChanged((user)=>{
+            this.afStore.collection('users').doc(user.uid).set({
+              // uid: user.uid
+            })
+          })
+        }
+       )
      }
 
      register(email, password){
-       return this.afAuth.createUserWithEmailAndPassword(email, password)
+        return this.afAuth.createUserWithEmailAndPassword(email, password).then(()=>{
+        this.afAuth.onAuthStateChanged((user)=>{
+          this.afStore.collection('users').doc(user.uid).set({
+            // uid: user.uid
+          })
+        })
+      }
+     )
+        
      }
      
     //  async sendVerificationMail(){
@@ -58,6 +80,33 @@ export class AuthenticationService {
       return this.afAuth.signOut().then(()=>{
         localStorage.removeItem('user')
         this.router.navigate(['/login'])
+      })
+    }
+
+    getUserInfo(): User{
+       this.afAuth.onAuthStateChanged((user)=>{
+        if (user){
+          console.log(user.uid)
+          this.user = {
+            uid: user.uid,
+            email: user.email,
+            photoURL: user.photoURL
+          }
+        }
+      }).then(()=>{
+      })
+      return this.user
+    }
+
+    updatePhotoURL(pURL){
+      this.afAuth.onAuthStateChanged((user)=>{
+        if (user){
+          user.updateProfile({
+            photoURL: pURL
+          }).then(()=>{
+            this.user.photoURL = user.photoURL
+          })
+        }
       })
     }
 

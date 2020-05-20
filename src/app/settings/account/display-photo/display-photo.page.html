@@ -1,0 +1,10 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>displayPhoto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-img style="height:200px; width:200px" src="getPhoto()"></ion-img>
+  <ion-input type="file" (change)="photoChanged($event)"></ion-input>
+</ion-content>

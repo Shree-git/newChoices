@@ -18,11 +18,12 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
   ) {
+    this.getUser();
     this.initializeApp();
     this.sideMenu();
-    this.getUser();
+    
   }
 
   initializeApp() {
@@ -30,6 +31,12 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  getPhoto(){
+    if(this.authService.getUserInfo().photoURL){
+     return this.authService.getUserInfo().photoURL
+    }
   }
 
   sideMenu(){
@@ -48,11 +55,16 @@ export class AppComponent {
     }]
   }
 
+
   logOut(){
       this.authService.logOut()
   }
 
   getUser(){
-    this.user = this.authService.getUser()
+    this.user = this.authService.getUserInfo()
+  }
+
+  getreturnUser(){
+    return this.authService.getUserInfo()
   }
 }

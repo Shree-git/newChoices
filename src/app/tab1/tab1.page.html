@@ -15,22 +15,36 @@
       <ion-title size="large">Journal</ion-title>
     </ion-toolbar>
   </ion-header> -->
-  <ion-list>
-    <ion-item *ngFor="let journal of journals" [routerLink]="['./journal-detail/', journal.id]">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <h3>{{ journal.title }}</h3>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <h5>{{ journal.detail }}</h5>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-list>
+  <ion-card *ngFor="let journal of (journals|async)" [routerLink]="['./journal-detail/', journal.id]">
+    <ion-card-content>
+    
+       
+          <ion-row>
+            <ion-col class="ion-text-left">
+              <h2 style="padding: 0"><strong>{{ journal.title }}</strong></h2>
+              
+            </ion-col>
+            <ion-col class="ion-text-right" style="padding: 0">
+              <ion-button fill="clear" (click)="deleteJournal(journal.id)">
+                <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            
+          </ion-row>
+          <ion-row>
+            <ion-col style="padding: 0 0 0 20px">
+              <!-- <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="journal.date" class="ion-no-padding"></ion-datetime> -->
+              <!-- <h5 style="padding: 0">{{ journal.date }}</h5> -->
+              <h5 style="padding: 0">{{ journal.detail }}</h5>
+            </ion-col>
+          </ion-row>
+   
+     
+    </ion-card-content>
+  </ion-card>
+  
   <ion-fab vertical="bottom" horizontal="end">
     <ion-fab-button routerLink="./journalAdd">
       <ion-icon name="add"></ion-icon>

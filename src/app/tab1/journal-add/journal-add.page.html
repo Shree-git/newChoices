@@ -14,17 +14,22 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label>Title</ion-label>
-        <ion-input type="text" [(ngModel)]="title"></ion-input>
+       
+        <ion-input type="text" placeholder="Title" [(ngModel)]="title"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Description</ion-label>
-        <ion-input type="text" [(ngModel)]="detail"></ion-input>
+      
+        <ion-input type="text-area" rows="8" placeholder="Description" [(ngModel)]="detail"></ion-input>
       </ion-item>
-      <ion-buttons slot="end">
-        <ion-button color="danger" (click)="clear()"><ion-icon type="icon-only" name="close"></ion-icon>Clear</ion-button>
-        <ion-button color="primary" (click)="addJournal()"><ion-icon type="icon-only" name="add"></ion-icon>Create</ion-button>
-      </ion-buttons>
+     
+        <ion-buttons class="ion-padding">
+          <ion-button color="danger" (click)="clear()"><ion-icon type="icon-only" name="close"></ion-icon>Clear</ion-button>
+          <ion-button color="primary" (click)="addJournal()"><ion-icon type="icon-only" name="add"></ion-icon>Create</ion-button>
+        </ion-buttons>
+     
+        
+    
+      
     </ion-card-content>
   </ion-card>
 </ion-content>

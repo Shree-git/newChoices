@@ -1,5 +1,7 @@
 {
   "name": "choices",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
