@@ -14,6 +14,7 @@ import { LoginPageRoutingModule } from './login/login-routing.module';
 export class AppComponent {
   pages: any
   user: any
+  photoURL: string
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -23,7 +24,7 @@ export class AppComponent {
     this.getUser();
     this.initializeApp();
     this.sideMenu();
-    
+    this.getPhoto();
   }
 
   initializeApp() {
@@ -34,8 +35,8 @@ export class AppComponent {
   }
 
   getPhoto(){
-    if(this.authService.getUserInfo().photoURL){
-     return this.authService.getUserInfo().photoURL
+    if(this.user!=null){
+    this.photoURL = this.authService.getUserInfo().photoURL
     }
   }
 

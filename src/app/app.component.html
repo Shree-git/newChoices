@@ -3,9 +3,9 @@
     <ion-header>
       <ion-toolbar color="primary" style="padding: 10px 0 10px 10px">
       
-          <ion-avatar slot="start" routerLink="/tabs/settings/account/display-photo">
+          <ion-avatar *ngIf="user!=null" slot="start" routerLink="/tabs/settings/account/display-photo">
             
-              <ion-img src="getPhoto()"></ion-img>
+              <ion-img *ngIf="user!=null" [src]="photoURL"></ion-img>
           
           </ion-avatar>
        

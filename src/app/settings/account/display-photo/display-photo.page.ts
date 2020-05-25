@@ -12,7 +12,7 @@ export class DisplayPhotoPage implements OnInit {
   file: File
   downloadURL: string
   constructor(private firebase: AngularFireStorage, private authService: AuthenticationService) { }
-
+  photoUrl: string
   ngOnInit() {
   }
 
@@ -24,33 +24,36 @@ export class DisplayPhotoPage implements OnInit {
     var uploadTask = storageRef.child('images/' + this.file[0].name).put(this.file[0])
 
     uploadTask.on('state_changed', function(snapshot){ 
-      var progress =  
-       (snapshot.bytesTransferred / snapshot.totalBytes) * 100; 
+      // var progress =  
+      //  (snapshot.bytesTransferred / snapshot.totalBytes) * 100; 
      
       
-        switch (snapshot.state) { 
-          case this.firebase.storage.TaskState.PAUSED: 
-            console.log('Upload is paused'); 
-            break; 
-          case this.firebase.storage.TaskState.RUNNING: 
-            console.log('Upload is running'); 
-            break; 
-        } 
+      //   switch (snapshot.state) { 
+      //     case this.firebase.storage.TaskState.PAUSED: 
+      //       console.log('Upload is paused'); 
+      //       break; 
+      //     case this.firebase.storage.TaskState.RUNNING: 
+      //       console.log('Upload is running'); 
+      //       break; 
+      //   } 
     }, function(error) {console.log(error); 
     }, function() { 
           // Upload completed successfully, now we can get the download URL
       uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) =>{
       this.downloadURL = downloadURL
         console.log('File available at', downloadURL);
-      this.authService.updatePhotoURL(this.downloadURL)
-  })})
+      
+  }).then(()=>{
   
+  })})
+  this.authService.updatePhotoURL(this.downloadURL)
+
+  this.getPhoto()
 }
 
   getPhoto(){
-    if(this.authService.getUserInfo().photoURL){
-     return this.authService.getUserInfo().photoURL
-    }
-    return
+   
+     this.photoUrl = this.authService.getUserInfo().photoURL
+   
   }
 }

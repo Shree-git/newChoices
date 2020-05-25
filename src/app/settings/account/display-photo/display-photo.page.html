@@ -5,6 +5,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-img style="height:200px; width:200px" src="getPhoto()"></ion-img>
+  <ion-img style="height:200px; width:200px" [src]="photoUrl"></ion-img>
   <ion-input type="file" (change)="photoChanged($event)"></ion-input>
 </ion-content>

@@ -9,18 +9,15 @@ import { map, take } from 'rxjs/operators';
 })
 export class JournalService {
   journalsCollection: AngularFirestoreCollection<Journal>
-  // journals: Journal[] = [{
-  //   id: 'j1',
-  //   title: 'Craving Food',
-  //   detail: 'I really want to eat something junk.'
-  // },{
-  //   id: 'j2',
-  //   title: 'Craving Netlix',
-  //   detail: 'I really want to watch movies.'
-  // }]
+
   journals: Observable<Journal[]>
   constructor(private afStore: AngularFirestore, private aService: AuthenticationService) {
-    this.journalsCollection = this.afStore.collection('users').doc(this.aService.user.uid).collection('journals')
+    
+   }
+
+  getAllJournals(): Observable<Journal[]>{
+    console.log(this.aService.getUserInfo().email)
+    this.journalsCollection = this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('journals')
     this.journals = this.journalsCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Journal
@@ -28,13 +25,7 @@ export class JournalService {
         return {id, ...data };
       })
     }))
-   }
-
-  getAllJournals(): Observable<Journal[]>{
-  //   this.journals = this.journalsCollection.valueChanges()
-  //   return this.journals
-  // //  return this.journals
-  return this.journals
+    return this.journals
   }
 
   
@@ -46,23 +37,6 @@ export class JournalService {
         return journal
       })
     )
-    // this.journal = this.journalsCollection.snapshotChanges().pipe(map(actions=>{
-    //   return actions.map(a =>{
-    //     const data = a.payload.doc.data() as Journal
-    //     const id = a.payload.doc.id
-        
-    //     return {id, ...data };
-        
-    //   })
-    // })).subscribe(a=>{
-    //   if (actions.id == journalId){
-    //     return 
-    //   }
-    // })
-    
-    // return this.journals.find(journal =>{
-    //   return journal.id === journalId
-    // })
   }
 
   updateJournal(journal: Journal): Promise<void>{
@@ -72,14 +46,9 @@ export class JournalService {
 
   deleteJournal(journalId: string): Promise<void>{
     return this.journalsCollection.doc(journalId).delete()
-    // let index = this.journals.indexOf(this.getJournal(journalId))
-    // if (index > -1){
-    //   this.journals.splice(index,1)
-    // }
   }
 
   addJournal(journal: Journal): Promise<DocumentReference>{
     return this.journalsCollection.add(journal)
-    //this.journals.push(journal)
   }
 }

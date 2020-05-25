@@ -36,6 +36,7 @@ export class JournalDetailPage implements OnInit {
   ionViewWillEnter(){
     if(this.iId){
       this.journalService.getJournal(this.iId).subscribe(journal =>{
+        console.log(journal)
         this.journal = journal
       })
     }

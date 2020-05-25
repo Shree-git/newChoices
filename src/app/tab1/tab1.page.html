@@ -15,6 +15,7 @@
       <ion-title size="large">Journal</ion-title>
     </ion-toolbar>
   </ion-header> -->
+  
   <ion-card *ngFor="let journal of (journals|async)" [routerLink]="['./journal-detail/', journal.id]">
     <ion-card-content>
     
