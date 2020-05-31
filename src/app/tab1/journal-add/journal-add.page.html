@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -10,24 +10,28 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>New Journal</ion-card-title>
+      <ion-card-title class="ion-text-center">New Journal</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-       
+        
         <ion-input type="text" placeholder="Title" [(ngModel)]="title"></ion-input>
       </ion-item>
       <ion-item>
       
-        <ion-input type="text-area" rows="8" placeholder="Description" [(ngModel)]="detail"></ion-input>
+        <ion-textarea autoGrow="true" placeholder="Enter description here..." [(ngModel)]="detail"></ion-textarea>
       </ion-item>
      
-        <ion-buttons class="ion-padding">
-          <ion-button color="danger" (click)="clear()"><ion-icon type="icon-only" name="close"></ion-icon>Clear</ion-button>
-          <ion-button color="primary" (click)="addJournal()"><ion-icon type="icon-only" name="add"></ion-icon>Create</ion-button>
-        </ion-buttons>
+       
      
-        
+        <ion-row>
+          <ion-col>
+            <ion-button color="danger" expand="full" (click)="clear()"><ion-icon type="icon-only" name="close"></ion-icon>Clear</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="primary" expand="full" (click)="addJournal()"  [disabled]="title==''"><ion-icon type="icon-only" name="add"></ion-icon>Create</ion-button>
+          </ion-col>
+        </ion-row>
     
       
     </ion-card-content>

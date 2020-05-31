@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../services/authentication.service';
+import { AccountService } from '../settings/account/account.service';
 
 export interface Page{
   title;
@@ -14,24 +16,8 @@ export interface Page{
 
 
 
-export class MenuPage implements OnInit {
+export class MenuPage{
 
-  pages: Page[] = [{
-    title: 'Journal',
-    url: '/tabs/tab1',
-    icon: 'journal'
-  },{
-    title: 'Journal',
-    url: '/tabs/tab2',
-    icon: 'stats-chart'
-  },{
-    title: 'Journal',
-    url: '/tabs/tab3',
-    icon: 'calendar'
-  }]
-  constructor() { }
-
-  ngOnInit() {
-  }
+  
 
 }

@@ -117,6 +117,7 @@ export class Tab3Page implements OnInit{
     this.eService.addEvent(eventCopy)
     this.myCal.loadEvents()
     this.resetEvent()
+    this.collapseCard = true
   }
 
   deleteEvent(event){

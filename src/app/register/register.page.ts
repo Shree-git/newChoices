@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { Account } from '../models/account.model';
+import { AccountService } from '../settings/account/account.service';
 
 @Component({
   selector: 'app-register',
@@ -10,9 +12,12 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class RegisterPage implements OnInit {
   email: string
+  fName: string
+  lName: string
   password: string
   cpassword: string
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  account: Account
+  constructor(private authService: AuthenticationService, private accountService: AccountService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -21,6 +26,12 @@ export class RegisterPage implements OnInit {
     if(this.password === this.cpassword){
       this.authService.register(this.email, this.password).then(()=>{
         this.router.navigate(['/tabs'])
+        this.account = {
+          fName: this.fName,
+          lName: this.lName
+        }
+        this.accountService.updateAccount(this.account)
+        
       })
 
     }

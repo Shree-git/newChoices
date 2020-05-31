@@ -12,7 +12,8 @@ export class EventService {
 
   events: Observable<Event[]>
   constructor(private afStore: AngularFirestore, private aService: AuthenticationService) {
-    
+    this.eventsCollection = this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('events')
+
    }
 
   getAllEvents(): Observable<Event[]>{

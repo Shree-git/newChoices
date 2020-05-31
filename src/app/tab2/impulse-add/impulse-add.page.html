@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Impulse</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">New Impulse</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        
+        <ion-input type="text" placeholder="Title" [(ngModel)]="title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-range min="1" max="10" step="1" value="5" pin snaps color="danger" [(ngModel)]="rating">
+          <ion-label slot="start" size="small" color="danger">1</ion-label>
+          <ion-label slot="end" size="large" color="danger">10</ion-label>
+          <!-- <ion-icon slot="start" size="small" color="danger" name="thermometer"></ion-icon>
+          <ion-icon slot="end" color="danger" name="thermometer"></ion-icon> -->
+        </ion-range>
+      </ion-item>
+      <ion-item>
+      
+        <ion-textarea autoGrow="true" placeholder="Enter description here..." [(ngModel)]="detail"></ion-textarea>
+      </ion-item>
+     
+        <ion-row>
+          <ion-col>
+            <ion-button color="danger" expand="full" (click)="clear()"><ion-icon type="icon-only" name="close"></ion-icon>Clear</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="primary" expand="full" (click)="addImpulse()"  [disabled]="title==''"><ion-icon type="icon-only" name="add"></ion-icon>Create</ion-button>
+          </ion-col>
+        </ion-row>
+     
+     
+        
+    
+      
+    </ion-card-content>
+  </ion-card>
+</ion-content>

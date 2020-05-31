@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs"></ion-back-button>
     </ion-buttons>
@@ -20,5 +20,14 @@
       </ion-col>
     </ion-row>
   </ion-item>
+  <ion-list>
+    <ion-item lines="full">
+      <ion-icon slot="start" name="moon"></ion-icon>
+      <ion-label>
+        Dark Theme
+      </ion-label>
+      <ion-toggle (click)="toggle()" slot="end"></ion-toggle>
+    </ion-item>
+  </ion-list>
   
 </ion-content>

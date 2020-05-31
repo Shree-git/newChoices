@@ -6,6 +6,14 @@ const routes: Routes = [
   {
     path: '',
     component: Tab2Page,
+  },
+  {
+    path: 'impulseAdd',
+    loadChildren: () => import('./impulse-add/impulse-add.module').then( m => m.ImpulseAddPageModule)
+  },
+  {
+    path: 'impulse-detail/:impulseId',
+    loadChildren: () => import('./impulse-detail/impulse-detail.module').then( m => m.ImpulseDetailPageModule)
   }
 ];
 

@@ -1,6 +1,6 @@
 <ion-header>
   
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -11,13 +11,13 @@
 <ion-content>
   <ion-row>
     <ion-col>
-      <ion-label position="floating">{{ account.fName }}</ion-label>
+      
       <ion-input type="text" placeholder="First Name" [(ngModel)]="account.fName"></ion-input>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col>
-      <ion-label position="floating">{{ account.lName }}</ion-label>
+      
       <ion-input type="text" placeholder="Last Name" [(ngModel)]="account.lName"></ion-input>
     </ion-col>
   </ion-row>
@@ -33,7 +33,7 @@
   </ion-row>
   <ion-row>
     <ion-col class="ion-text-center">
-      <ion-button (click)="updateAccount()" [disabled]="firstName=='' || lastName==''">Save</ion-button>
+      <ion-button (click)="updateAccount()" [disabled]="account.fName=='' || account.lName==''">Save</ion-button>
     </ion-col>
   </ion-row>
 </ion-content>

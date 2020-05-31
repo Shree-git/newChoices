@@ -1,10 +1,17 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>displayPhoto</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-img style="height:200px; width:200px" [src]="photoUrl"></ion-img>
-  <ion-input type="file" (change)="photoChanged($event)"></ion-input>
+  <div class="ion-text-center">
+    <ion-img style="height:200px; width:200px" [src]="downloadURL"></ion-img>
+    <ion-input type="file" (change)="photoChanged($event)"></ion-input>
+  </div>
+  
+  <ion-button expand="block" (click)="savePhoto()">Save</ion-button>
 </ion-content>

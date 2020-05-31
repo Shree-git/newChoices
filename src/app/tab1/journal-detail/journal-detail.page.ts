@@ -7,6 +7,7 @@ import { FirestoreService } from 'src/app/services/firebase.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AlertController } from '@ionic/angular';
 // import { Observable } from 'rxjs';
 
 
@@ -24,7 +25,7 @@ export class JournalDetailPage implements OnInit {
   }
   iId: string
   constructor(private activatedRoute: ActivatedRoute, private journalService: JournalService,
-              private location: Location, private afStore: AngularFirestore) { }
+              private location: Location, private afStore: AngularFirestore, private alertCtrl: AlertController) { }
 
   ngOnInit() {
     
@@ -43,8 +44,30 @@ export class JournalDetailPage implements OnInit {
   }
   
 
-  deleteJournal(){
-    this.journalService.deleteJournal(this.iId).then(()=>{
+  async deleteJournal(){
+    let alert = await this.alertCtrl.create({
+      header: 'Delete',
+      message: 'Do you want to delete this journal?',
+      buttons: [
+        {
+          text: 'Delete',
+          handler: ()=>{
+            this.journalService.deleteJournal(this.iId).then(()=>{
+            this.location.back()
+          })}
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    })
+    await alert.present()
+    
+  }
+
+  updateJournal(){
+    this.journalService.updateJournal(this.journal).then(()=>{
       this.location.back()
     })
   }

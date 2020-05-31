@@ -12,12 +12,14 @@ export class JournalService {
 
   journals: Observable<Journal[]>
   constructor(private afStore: AngularFirestore, private aService: AuthenticationService) {
+   
+      this.journalsCollection = this.afStore.collection('users').doc(this.aService.user.uid).collection('journals')
     
    }
 
   getAllJournals(): Observable<Journal[]>{
     console.log(this.aService.getUserInfo().email)
-    this.journalsCollection = this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('journals')
+    this.journalsCollection = this.afStore.collection('users').doc(this.aService.user.uid).collection('journals')
     this.journals = this.journalsCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Journal
@@ -39,9 +41,45 @@ export class JournalService {
     )
   }
 
+  searchJournals(searchWord){
+    // searchWord = searchWord.toUpperCase()
+    return this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('journals' , ref => 
+    ref.where('title' ,'>=', searchWord).where('title','<=', searchWord+'z')).snapshotChanges().pipe(map(actions=>{
+      return actions.map(a =>{
+        const data = a.payload.doc.data() as Journal
+        // data = {
+        //   title: data.title.toLowerCase(),
+        //   detail: data.detail,
+        //   date: data.date
+        // }
+        console.log(data.title)
+        // data.title = data.title.toLowerCase()
+        const id = a.payload.doc.id
+        return {id, ...data };
+      })
+    }))
+  }
+
+  sortBy(datee: string, desAsc){
+    return this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('journals' , ref => 
+    ref.orderBy(datee, desAsc)).snapshotChanges().pipe(map(actions=>{
+      return actions.map(a =>{
+        const data = a.payload.doc.data() as Journal
+        // data = {
+        //   title: data.title.toLowerCase(),
+        //   detail: data.detail,
+        //   date: data.date
+        // }
+        // data.title = data.title.toLowerCase()
+        const id = a.payload.doc.id
+        return {id, ...data };
+      })
+    }))
+  }
+
   updateJournal(journal: Journal): Promise<void>{
     return this.journalsCollection.doc(journal.id).update({title: journal.title,
-    detail: journal.detail})
+    detail: journal.detail, date: new Date().toISOString()})
   }
 
   deleteJournal(journalId: string): Promise<void>{

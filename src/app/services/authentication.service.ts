@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
+import { AccountService } from '../settings/account/account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,11 @@ export class AuthenticationService {
   userData: any
   user: User
   usersRef
+
   constructor(
     private afAuth: AngularFireAuth,
     private afStore: AngularFirestore,
+   
     private router: Router
     ) {
       this.getUserInfo()
@@ -44,14 +47,11 @@ export class AuthenticationService {
     
      }
 
-     login(email, password){
+     async login(email, password){
         return this.afAuth.signInWithEmailAndPassword(email, password).then(()=>{
-       
-          // this.afAuth.onAuthStateChanged((user)=>{
-          //   this.afStore.collection('users').doc(user.uid).set({
-          //     // uid: user.uid
-          //   })
-          // })
+          
+      
+        
         }
        )
      }
@@ -67,6 +67,7 @@ export class AuthenticationService {
         //     // uid: user.uid
         //   })
         // })
+      
       }
      )
         
@@ -95,7 +96,9 @@ export class AuthenticationService {
     logOut() {
       return this.afAuth.signOut().then(()=>{
         this.user = null
+        this.userData = null
         localStorage.removeItem('user')
+        console.log(this.user)
         this.router.navigate(['/login'])
       })
     }
@@ -123,7 +126,16 @@ export class AuthenticationService {
           user.updateProfile({
             photoURL: pURL
           }).then(()=>{
-            this.user.photoURL = user.photoURL
+            console.log(pURL)
+            console.log(user.photoURL)
+            this.user = {
+              uid: user.uid,
+              email: user.email,
+              photoURL: user.photoURL
+            }
+            console.log(this.user.photoURL)
+            this.router.navigate(['/tabs'])
+            // this.user.photoURL = user.photoURL
           })
         }
       })

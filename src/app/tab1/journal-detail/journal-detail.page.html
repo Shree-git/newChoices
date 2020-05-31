@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot= start>
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -13,13 +13,29 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    {{ journal.title }}
-  </ion-item>
-  <ion-item>
-    {{ journal.detail }}
-  </ion-item>
-  <ion-item>
-    <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="journal.date" class="ion-no-padding"></ion-datetime>
-  </ion-item>
-</ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Title</ion-label>
+        <ion-input type="text" [(ngModel)]="journal.title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Description</ion-label>
+        <ion-textarea autoGrow="true" placeholder="Enter description here..." [(ngModel)]="journal.detail"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Date Created/Modified</ion-label>
+        <ion-datetime displayFormat="MMM DD, YYYY HH:mm a" [(ngModel)]="journal.date" readonly="true" class="ion-no-padding"></ion-datetime>
+      </ion-item>
+     <div class="ion-text-center">
+      <ion-button [disabled]="journal.title==''" (click)="updateJournal()" class="ion-padding">
+        <ion-icon name="create"></ion-icon>
+        UPDATE
+      </ion-button>
+     </div>
+        
+     
+    </ion-card-content>
+  </ion-card>
+  
+</ion-content> 

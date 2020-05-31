@@ -16,6 +16,9 @@ export class JournalAddPage implements OnInit {
   constructor(private journalService: JournalService, private location: Location) { }
 
   ngOnInit() {
+    this.id = ''
+    this.title = ''
+    this.detail = ''
   }
 
   clear(){

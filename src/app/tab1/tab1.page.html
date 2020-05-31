@@ -1,11 +1,32 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" *ngIf="!isSearchBarOn">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      Journal
+    <ion-title class="ion-text-center" *ngIf="!isSearchBarOn">
+      Journals
     </ion-title>
+    <ion-searchbar *ngIf="isSearchBarOn" (ionInput)="search($event)" showCancelButton="true" (ionCancel)="isSearchBarOn=false" placeholder="Search by Title"></ion-searchbar>
+    <ion-buttons slot="end" *ngIf="!isSearchBarOn">
+      <ion-button (click)="isSearchBarOn=true">
+        <ion-icon name="search" slot="icon-only"></ion-icon>
+      </ion-button>
+      <!-- <ion-button (click)="funnelShow=!funnelShow">
+        <ion-icon name="funnel" slot="icon-only"></ion-icon>
+      </ion-button> -->
+      <!-- <button class="sort" id="drop" (click)="dropMenu()">Sort</button>
+      <div class="dropdown">
+        <div id="myDrop" class="dropdown-cont">
+          <a (click)="sortByOldest()">Oldest</a>
+          <a (click)="sortByNewest()">Newest</a>
+        </div>
+      </div> -->
+    </ion-buttons>
+    <!-- <ion-select *ngIf="funnelShow" interface="action-sheet">
+      <ion-select-option (click)="sortByOldest()">Oldest</ion-select-option>
+      <ion-select-option (click)="sortByNewest()">Newest</ion-select-option>
+    </ion-select> -->
+    
   </ion-toolbar>
 </ion-header>
 
@@ -16,17 +37,25 @@
     </ion-toolbar>
   </ion-header> -->
   
-  <ion-card *ngFor="let journal of (journals|async)" [routerLink]="['./journal-detail/', journal.id]">
+  <ion-row>
+    <ion-col>
+      <ion-button expand="full" (click)="sortByOldest()">Oldest</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button expand="full" (click)="sortByNewest()">Newest</ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-card *ngFor="let journal of (journals|async)">
     <ion-card-content>
     
        
           <ion-row>
-            <ion-col class="ion-text-left">
+            <ion-col class="ion-text-left" [routerLink]="['./journal-detail/', journal.id]" size='9'>
               <h2 style="padding: 0"><strong>{{ journal.title }}</strong></h2>
               
             </ion-col>
             <ion-col class="ion-text-right" style="padding: 0">
-              <ion-button fill="clear" (click)="deleteJournal(journal.id)">
+              <ion-button fill="clear" (click)="deleteJournal(journal.id)" color="secondary">
                 <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
               </ion-button>
             </ion-col>
@@ -34,11 +63,12 @@
           <ion-row>
             
           </ion-row>
-          <ion-row>
+          <ion-row  [routerLink]="['./journal-detail/', journal.id]">
             <ion-col style="padding: 0 0 0 20px">
               <!-- <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="journal.date" class="ion-no-padding"></ion-datetime> -->
               <!-- <h5 style="padding: 0">{{ journal.date }}</h5> -->
-              <h5 style="padding: 0">{{ journal.detail }}</h5>
+              <!-- <h5 style="padding: 0">{{ journal.detail }}</h5> -->
+              <ion-datetime displayFormat="MMM DD, YYYY HH:mm a" [(ngModel)]="journal.date" readonly="true" class="ion-no-padding"></ion-datetime>
             </ion-col>
           </ion-row>
    

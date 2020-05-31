@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DarkService } from './dark.service';
 
 @Component({
   selector: 'app-settings',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
+  themeToggle: boolean = false
+  constructor(private darkService: DarkService) { 
 
-  constructor() { }
+
+
+  }
 
   ngOnInit() {
   }
 
+  toggle(){
+    this.themeToggle = !this.themeToggle
+    this.darkService.toggleDarkTheme(this.themeToggle)
+  }
 }
