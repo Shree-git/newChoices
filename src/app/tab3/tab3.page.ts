@@ -80,6 +80,45 @@ export class Tab3Page implements OnInit{
     this.resetEvent()
   }
 
+  async ionViewWillEnter(){
+    this.allEvents = this.eService.getAllEvents()
+    console.log(this.eventSource)
+    await this.allEvents.subscribe(event =>{
+      // console.log(event)
+      // console.log(this.eventSource)
+      // try{
+      //   this.eventSource = event
+      // }catch(error){
+      //   console.log(error.code)
+      // }
+     
+      // console.log(this.eventSource)
+      // this.eventSource.push(event)
+      // console.log(this.eventSource)
+      this.eventSource = []
+      event.forEach(element => {
+        let eventCopy = {
+          id: element.id,
+          title: element.title,
+          detail: element.detail,
+          startTime: new Date(element.startTime),
+          endTime: new Date(element.endTime),
+          allDay: element.allDay
+        }
+        this.eventSource.push(eventCopy)
+      });
+      // this.myCal.loadEvents()
+    //   console.log(this.copyEventSource)
+    // this.eventSource = this.copyEventSource
+    console.log(this.eventSource)
+    
+    this.myCal.loadEvents()
+    })
+    //this.eventSource.push(this.eService.getAllEvents())
+    this.resetEvent()
+  
+  }
+
   resetEvent(){
     this.event = {
       title: '',
@@ -159,12 +198,15 @@ export class Tab3Page implements OnInit{
     const alert = await this.alertCtrl.create({
       header: event.title,
       subHeader: event.detail,
+      cssClass: 'buttonCss',
       message: 'From: ' + start + '<br><br>To: ' + end,
       buttons: [{
         text: 'OK',
+        cssClass: 'first-button',
         role: 'OK'
       },{
         text: 'Delete',
+        cssClass: 'second-button',
         handler: ()=>{
           this.deleteEvent(event)
         }

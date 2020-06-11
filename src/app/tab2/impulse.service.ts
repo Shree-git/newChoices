@@ -16,7 +16,7 @@ export class ImpulseService {
    }
 
   getAllImpulses(): Observable<Impulse[]>{
-    console.log(this.aService.getUserInfo().email)
+    console.log(this.aService.getUser().email)
     this.impulsesCollection = this.afStore.collection('users').doc(this.aService.user.uid).collection('impulses')
     this.impulses = this.impulsesCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
@@ -42,7 +42,7 @@ export class ImpulseService {
   searchImpulse(searchWord){
     // searchWord = searchWord.toUpperCase()
     searchWord = Number(searchWord)
-    return this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('impulses' , ref => 
+    return this.afStore.collection('users').doc(this.aService.getUser().uid).collection('impulses' , ref => 
     ref.where('rating' ,'==', searchWord)).snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Impulse
@@ -60,7 +60,7 @@ export class ImpulseService {
   }
 
   sortBy(rating: string, desAsc){
-    return this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('impulses' , ref => 
+    return this.afStore.collection('users').doc(this.aService.getUser().uid).collection('impulses' , ref => 
     ref.orderBy(rating, desAsc)).snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Impulse

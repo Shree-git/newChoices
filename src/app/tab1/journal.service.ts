@@ -17,9 +17,10 @@ export class JournalService {
     
    }
 
+
   getAllJournals(): Observable<Journal[]>{
-    console.log(this.aService.getUserInfo().email)
-    this.journalsCollection = this.afStore.collection('users').doc(this.aService.user.uid).collection('journals')
+    console.log(this.aService.getUser().email)
+    this.journalsCollection = this.afStore.collection('users').doc(this.aService.getUser().uid).collection('journals')
     this.journals = this.journalsCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Journal
@@ -43,7 +44,7 @@ export class JournalService {
 
   searchJournals(searchWord){
     // searchWord = searchWord.toUpperCase()
-    return this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('journals' , ref => 
+    return this.afStore.collection('users').doc(this.aService.getUser().uid).collection('journals' , ref => 
     ref.where('title' ,'>=', searchWord).where('title','<=', searchWord+'z')).snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Journal
@@ -61,7 +62,7 @@ export class JournalService {
   }
 
   sortBy(datee: string, desAsc){
-    return this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('journals' , ref => 
+    return this.afStore.collection('users').doc(this.aService.getUser().uid).collection('journals' , ref => 
     ref.orderBy(datee, desAsc)).snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Journal
@@ -75,6 +76,7 @@ export class JournalService {
         return {id, ...data };
       })
     }))
+    // this.journals = this.getAllJournals();
   }
 
   updateJournal(journal: Journal): Promise<void>{

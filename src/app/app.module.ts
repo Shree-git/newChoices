@@ -13,7 +13,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth'
 import { AngularFireStorageModule } from '@angular/fire/storage'
 import { firebaseConfig } from './firebase'
 import { NgCalendarModule  } from 'ionic2-calendar';
-
+// import { Network } from '@ionic-native/network/ngx';
+import { Platform } from '@ionic/angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,11 +26,16 @@ import { NgCalendarModule  } from 'ionic2-calendar';
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFireStorageModule,
-    NgCalendarModule],
+    NgCalendarModule,
+ 
+    
+  ],
   providers: [
     StatusBar,
     SplashScreen,
-  
+
+    Platform,
+
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

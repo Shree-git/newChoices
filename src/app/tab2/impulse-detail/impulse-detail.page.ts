@@ -48,10 +48,12 @@ export class ImpulseDetailPage implements OnInit {
   async deleteImpulse(){
     let alert = await this.alertCtrl.create({
       header: 'Delete',
+      cssClass: 'buttonCss',
       message: 'Do you want to delete this impulse?',
       buttons: [
         {
           text: 'Delete',
+          cssClass: 'first-button',
           handler: ()=>{
             this.impulseService.deleteImpulse(this.iId).then(()=>{
             this.location.back()
@@ -59,6 +61,7 @@ export class ImpulseDetailPage implements OnInit {
         },
         {
           text: 'Cancel',
+          cssClass: 'second-button',
           role: 'cancel'
         }
       ]

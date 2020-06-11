@@ -9,7 +9,7 @@ import { AccountService } from '../settings/account/account.service';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  userData: any
+  // userData: any
   user: User
   usersRef
 
@@ -19,41 +19,57 @@ export class AuthenticationService {
    
     private router: Router
     ) {
-      this.getUserInfo()
+      // this.getUserInfo()
       // this.usersRef = this.afStore.collection('users')
       // this.usersRef = this.usersRef.where('uid','==', this.user.uid)
+      this.user = JSON.parse(localStorage.getItem('user'))
       this.afAuth.onAuthStateChanged((user)=>{
-        if (user){
-          console.log(user.uid)
-          this.user = {
-            uid: user.uid,
-            email: user.email,
-            photoURL: user.photoURL
+        // if (user){
+        //   console.log(user.uid)
+        //   this.user = user
+        //   localStorage.setItem('user', JSON.stringify(this.user))
+        //   JSON.parse(localStorage.getItem('user'))
+        //   // this.user = {
+        //   //   uid: user.uid,
+        //   //   email: user.email,
+        //   //   photoURL: user.photoURL
+        //   // }
+        // }else{
+        //   this.user = null
+        //   localStorage.setItem('user', null)
+        //   JSON.parse(localStorage.getItem('user'))
+        // }
+        
+     
+          if (user) {
+            this.user = user
+            localStorage.setItem('user', JSON.stringify(this.user))
+            JSON.parse(localStorage.getItem('user'))
+            
+          }else{
+            this.user = null
+            localStorage.setItem('user', null)
+            this.user = JSON.parse(localStorage.getItem('user'))
           }
-        }else{
-          this.user = null
-        }
-      })
-      this.afAuth.authState.subscribe(user => {
-        if (user) {
-          this.userData = user
-          localStorage.setItem('user', JSON.stringify(this.userData))
-          JSON.parse(localStorage.getItem('user'))
-        }else{
-          localStorage.setItem('user', null)
-          JSON.parse(localStorage.getItem('user'))
-        }
-      })
+        })
+      
+  
+      // this.afAuth.authState.subscribe(user => {
+      //   if (user) {
+      //     this.user = user
+      //     localStorage.setItem('user', JSON.stringify(this.user))
+      //     JSON.parse(localStorage.getItem('user'))
+      //   }else{
+      //     this.user = null
+      //     localStorage.setItem('user', null)
+      //     JSON.parse(localStorage.getItem('user'))
+      //   }
+      // })
     
      }
 
-     async login(email, password){
-        return this.afAuth.signInWithEmailAndPassword(email, password).then(()=>{
-          
-      
-        
-        }
-       )
+     login(email, password){
+        return this.afAuth.signInWithEmailAndPassword(email, password)
      }
 
     //  getCurrentUser(){
@@ -61,15 +77,7 @@ export class AuthenticationService {
     //  }
 
      register(email, password){
-        return this.afAuth.createUserWithEmailAndPassword(email, password).then(()=>{
-        // this.afAuth.onAuthStateChanged((user)=>{
-        //   this.afStore.collection('users').doc(user.uid).set({
-        //     // uid: user.uid
-        //   })
-        // })
-      
-      }
-     )
+        return this.afAuth.createUserWithEmailAndPassword(email, password)
         
      }
      
@@ -93,34 +101,39 @@ export class AuthenticationService {
       return (user !== null) ? true : false
     }
 
-    logOut() {
+     logOut() {
       return this.afAuth.signOut().then(()=>{
-        this.user = null
-        this.userData = null
+        // this.user = null
+        // this.userData = null
         localStorage.removeItem('user')
         console.log(this.user)
+        window.location.reload();
         this.router.navigate(['/login'])
       })
     }
 
-    getUserInfo(): User{
-       this.afAuth.onAuthStateChanged((user)=>{
-        if (user){
-          console.log(user.uid)
-          this.user = {
-            uid: user.uid,
-            email: user.email,
-            photoURL: user.photoURL
-          }
-        }else{
-          this.user = null
-        }
-      }).then(()=>{
-      })
-      return this.user
-    }
+    // getUserInfo(): User{
+    //   //  this.afAuth.onAuthStateChanged((user)=>{
+    //   //   if (user){
+    //   //     console.log(user.uid)
+    //   //     this.user = {
+    //   //       uid: user.uid,
+    //   //       email: user.email,
+    //   //       photoURL: user.photoURL
+    //   //     }
+    //   //   }else{
+    //   //     this.user = null
+    //   //   }
+    //   // }).then(()=>{
+    //   // })
+    //   this.user = JSON.parse(localStorage.getItem('user'))
+    //   return this.user
+
+      
+    // }
 
     updatePhotoURL(pURL){
+     
       this.afAuth.onAuthStateChanged((user)=>{
         if (user){
           user.updateProfile({
@@ -133,6 +146,8 @@ export class AuthenticationService {
               email: user.email,
               photoURL: user.photoURL
             }
+            localStorage.setItem('user', JSON.stringify(this.user))
+            JSON.parse(localStorage.getItem('user'))
             console.log(this.user.photoURL)
             this.router.navigate(['/tabs'])
             // this.user.photoURL = user.photoURL
@@ -141,11 +156,13 @@ export class AuthenticationService {
       })
     }
 
-    getUser(){
+    getUser(): User{
       const user = JSON.parse(localStorage.getItem('user'))
       if (user === null){
-        return
+        return null
       }
       return user
     }
+
+    
 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { Account } from '../models/account.model';
 import { AccountService } from '../settings/account/account.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,9 @@ export class RegisterPage implements OnInit {
   password: string
   cpassword: string
   account: Account
-  constructor(private authService: AuthenticationService, private accountService: AccountService, private router: Router) { }
+  backButtonSubscription;
+  constructor(private authService: AuthenticationService, private accountService: AccountService, private router: Router,
+    private platform: Platform) { }
 
   ngOnInit() {
   }
@@ -36,4 +39,12 @@ export class RegisterPage implements OnInit {
 
     }
   }
+
+  ionViewDidEnter(){ this.backButtonSubscription = this.platform.backButton.subscribe(()=>{ 
+    if ((this.router.isActive('/register', true) && this.router.url === '/register')) {
+      navigator['app'].exitApp();
+    }
+    }); } 
+  
+  ionViewWillLeave(){ this.backButtonSubscription.unsubscribe();}
 }

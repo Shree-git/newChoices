@@ -27,6 +27,7 @@ export class DisplayPhotoPage implements OnInit {
       finalize(()=>{
         fileRef.getDownloadURL().subscribe(url =>{
           this.downloadURL = url
+          
         })
       })
     ).subscribe()
@@ -71,13 +72,12 @@ export class DisplayPhotoPage implements OnInit {
 
   savePhoto(){
     this.authService.updatePhotoURL(this.downloadURL)
- 
-    
+    this.downloadURL = null
   }
 
   getPhoto(){
    
-     this.photoUrl = this.authService.getUserInfo().photoURL
+     this.photoUrl = this.authService.getUser().photoURL
    
   }
 

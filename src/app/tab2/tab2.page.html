@@ -6,10 +6,15 @@
     <ion-title class="ion-text-center" *ngIf="!isSearchBarOn">
       Impulses
     </ion-title>
-    <ion-searchbar *ngIf="isSearchBarOn" (ionInput)="search($event)" showCancelButton="true" (ionCancel)="isSearchBarOn=false" placeholder="Search by Rating (Enter Number)"></ion-searchbar>
+    <ion-searchbar *ngIf="isSearchBarOn" (ionInput)="search($event)" showCancelButton="true" (ionCancel)="cancelSearch()" placeholder="Search by Rating (Enter Number)"></ion-searchbar>
     <ion-buttons slot="end" *ngIf="!isSearchBarOn">
       <ion-button (click)="isSearchBarOn=true">
         <ion-icon name="search" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="openPopover($event)">
+
+        <ion-icon name="filter" slot="icon-only"></ion-icon>
+        
       </ion-button>
       <!-- <ion-button (click)="funnelShow=!funnelShow">
         <ion-icon name="funnel" slot="icon-only"></ion-icon>
@@ -31,25 +36,33 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+     
+      refreshingSpinner="circles"
+     >
+    </ion-refresher-content>
+  </ion-refresher>
   <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">impulse</ion-title>
     </ion-toolbar>
   </ion-header> -->
   
-  <ion-row>
+  <!-- <ion-row>
     <ion-col>
       <ion-button expand="full" (click)="sortByHighest()">Highest</ion-button>
     </ion-col>
     <ion-col>
       <ion-button expand="full" (click)="sortByLowest()">Lowest</ion-button>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
   <ion-card *ngFor="let impulse of (impulses|async)">
 
     <ion-card-content>
     
-      <div style="background-color: #f3dd43; float: left; height: 50px; width: 50px; text-align: center; font-size: 30px; border-radius: 20%;">
+      <div style="background-color: var(--ion-color-secondary, #ffffff) ;float: left; height: 50px; width: 50px; text-align: center; font-size: 30px; border-radius: 20%;">
         <h1 style="padding-top: 25%">{{ impulse.rating }}</h1>
       </div>
           <ion-row>
@@ -89,7 +102,7 @@
     </ion-card-content>
   </ion-card>
   
-  <ion-fab vertical="bottom" horizontal="end">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLink="./impulseAdd">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

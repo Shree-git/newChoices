@@ -10,6 +10,9 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
+
+
+
 @import "~@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
@@ -24,3 +27,50 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+.buttonCss {
+
+    button.alert-button.first-button{
+      color: var(--ion-color-secondary);
+    }
+
+    button.alert-button.second-button{
+        color: var(--ion-color-tertiary);
+    }
+}
+
+.picker-button{
+    color: var(--ion-color-secondary) !important;
+}
+
+.picker-opt-selected{
+    color: var(--ion-color-primary) !important;
+}
+
+.monthview-primary-with-event{
+    background-color: var(--ion-color-tertiary) !important;
+    color: var(--ion-color-primary) !important;
+}
+
+
+
+.monthview-current{
+    background-color: var(--ion-color-primary-contrast) !important;
+    color: var(--ion-color-primary) !important;
+}
+
+.monthview-selected{
+    background-color: var(--ion-color-secondary) !important;
+    color: var(--ion-color-primary) !important;
+}
+
+.picker-opt-selected{
+    background-color: var(--ion-color-secondary) !important;
+    color: var(--ion-color-primary) !important;
+}
+
+.calendar-event-inner{
+    background-color: var(--ion-color-secondary) !important;
+    color: var(--ion-color-secondary-contrast) !important;
+}

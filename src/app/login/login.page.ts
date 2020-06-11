@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -11,7 +12,8 @@ import { AuthenticationService } from '../services/authentication.service';
 export class LoginPage implements OnInit {
   email: string
   password: string
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  backButtonSubscription;
+  constructor(private authService: AuthenticationService, private router: Router, private platform: Platform) { }
 
   ngOnInit() {
   }
@@ -22,4 +24,13 @@ export class LoginPage implements OnInit {
     })
 
   }
+
+  
+  ionViewDidEnter(){ this.backButtonSubscription = this.platform.backButton.subscribe(()=>{ 
+    if ((this.router.isActive('/login', true) && this.router.url === '/login')) {
+      navigator['app'].exitApp();
+    }
+    }); } 
+  
+  ionViewWillLeave(){ this.backButtonSubscription.unsubscribe();}
 }

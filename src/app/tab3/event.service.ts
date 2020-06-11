@@ -12,12 +12,12 @@ export class EventService {
 
   events: Observable<Event[]>
   constructor(private afStore: AngularFirestore, private aService: AuthenticationService) {
-    this.eventsCollection = this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('events')
+    this.eventsCollection = this.afStore.collection('users').doc(this.aService.getUser().uid).collection('events')
 
    }
 
   getAllEvents(): Observable<Event[]>{
-    this.eventsCollection = this.afStore.collection('users').doc(this.aService.getUserInfo().uid).collection('events')
+    this.eventsCollection = this.afStore.collection('users').doc(this.aService.getUser().uid).collection('events')
     this.events = this.eventsCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Event

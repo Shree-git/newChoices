@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './services/authentication.service';
 import { LoginPageRoutingModule } from './login/login-routing.module';
 import { DarkService } from './settings/dark.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,13 +14,14 @@ import { DarkService } from './settings/dark.service';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  
+  backButtonSubscription;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private authService: AuthenticationService,
-    private darkService: DarkService
+    private darkService: DarkService,
+    private router: Router
   ) {
  // Use matchMedia to check the user preference
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -39,6 +41,18 @@ prefersDark.addListener((mediaQuery) => this.darkService.toggleDarkTheme(mediaQu
       this.splashScreen.hide();
     });
   }
+
+  // ionViewDidEnter(){ this.backButtonSubscription = this.platform.backButton.subscribe(()=>{ 
+  //   if ((this.router.isActive('/tabs/tab1', true) && this.router.url === '/tabs/tab1') || 
+  //   (this.router. isActive('/tabs/tab2', true) && this.router.url === '/tabs/tab2') || 
+  //   (this.router.isActive('/tabs/tab3', true) && this.router.url === '/tabs/tab3') ||
+  //   (this.router.isActive('/login', true) && this.router.url === '/login') ||
+  //   (this.router.isActive('/register', true) && this.router.url === '/register')) {
+  //     navigator['app'].exitApp();
+  //   }
+  //   }); } 
+  
+  // ionViewWillLeave(){ this.backButtonSubscription.unsubscribe();}
 
   
 }

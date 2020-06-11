@@ -1,31 +1,33 @@
 <ion-menu contentId="content" side="start">
   <ion-header>
-    <ion-toolbar color="primary" style="padding: 10px 0 10px 10px">
+    <ion-toolbar color="primary" style="padding: 10px 0 10px 10px;">
       
-        <ion-avatar slot="start" routerLink="/tabs/settings/account/display-photo">
-          
-            <ion-img [src]="authService.user.photoURL"></ion-img>
-        
+        <ion-avatar
+          slot="start"
+          routerLink="/tabs/settings/account/display-photo"
+        >
+     
+          <ion-img [src]="authService.getUser().photoURL"></ion-img>
         </ion-avatar>
-      <ion-title>{{ accountService.account.fName }} {{ accountService.account.lName }}</ion-title>
-      <ion-title size="small">{{ authService.user.email }}</ion-title>
       
-    
+      <ion-title
+        >{{ accountService.account.fName }} {{ accountService.account.lName
+        }}</ion-title
+      >
+      <ion-title size="small">{{ authService.user.email }}</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list *ngFor="let p of pages">
       <ion-menu-toggle auto-hide="false">
         <ion-item [routerLink]="p.url" routerDirection="forward">
-          <ion-icon [name]="p.icon" slot="start">
-          </ion-icon>
+          <ion-icon [name]="p.icon" slot="start"> </ion-icon>
           {{ p.title }}
         </ion-item>
       </ion-menu-toggle>
-      
     </ion-list>
     <ion-menu-toggle auto-hide="false">
-      <ion-item routerLink="/tabs/settings" routerDirection="forward">
+      <ion-item routerLink="/tabs/settings" routerDirection="forward"> 
         <ion-icon name="settings" slot="start"></ion-icon>
         Settings
       </ion-item>
@@ -40,10 +42,8 @@
 </ion-menu>
 <ion-router-outlet id="content" main></ion-router-outlet>
 
-
 <ion-tabs>
-
-  <ion-tab-bar slot="bottom"  color="primary">
+  <ion-tab-bar slot="bottom" color="primary">
     <ion-tab-button tab="tab1">
       <ion-icon name="journal"></ion-icon>
       <ion-label>Journal</ion-label>
@@ -59,6 +59,4 @@
       <ion-label>Calendar</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
-
 </ion-tabs>
-

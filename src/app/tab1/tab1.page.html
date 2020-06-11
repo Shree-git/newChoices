@@ -3,14 +3,26 @@
     <ion-buttons slot="start" *ngIf="!isSearchBarOn">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title class="ion-text-center" *ngIf="!isSearchBarOn">
+    <ion-title class="ion-text-center" *ngIf="!isSearchBarOn" style="color:yellow;">
       Journals
     </ion-title>
-    <ion-searchbar *ngIf="isSearchBarOn" (ionInput)="search($event)" showCancelButton="true" (ionCancel)="isSearchBarOn=false" placeholder="Search by Title"></ion-searchbar>
+    <ion-searchbar *ngIf="isSearchBarOn" (ionInput)="search($event)" showCancelButton="true" (ionCancel)="cancelSearch()" placeholder="Search by Title"></ion-searchbar>
     <ion-buttons slot="end" *ngIf="!isSearchBarOn">
       <ion-button (click)="isSearchBarOn=true">
         <ion-icon name="search" slot="icon-only"></ion-icon>
       </ion-button>
+      <ion-button (click)="openPopover($event)">
+
+        <ion-icon name="filter" slot="icon-only"></ion-icon>
+        
+      </ion-button>
+      <!-- <ion-item [hidden]="hideList">
+        <ion-select interface="popover" placeholder="Order By" (ionChange)="onChange($event)" #mySelect>
+          <ion-select-option value="newest" >Newest</ion-select-option>
+          <ion-select-option value="oldest">Oldest</ion-select-option>
+        </ion-select>
+      </ion-item> -->
+      
       <!-- <ion-button (click)="funnelShow=!funnelShow">
         <ion-icon name="funnel" slot="icon-only"></ion-icon>
       </ion-button> -->
@@ -22,6 +34,8 @@
         </div>
       </div> -->
     </ion-buttons>
+    
+
     <!-- <ion-select *ngIf="funnelShow" interface="action-sheet">
       <ion-select-option (click)="sortByOldest()">Oldest</ion-select-option>
       <ion-select-option (click)="sortByNewest()">Newest</ion-select-option>
@@ -31,20 +45,29 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+     
+      refreshingSpinner="circles"
+     >
+    </ion-refresher-content>
+  </ion-refresher>
+
   <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Journal</ion-title>
     </ion-toolbar>
   </ion-header> -->
   
-  <ion-row>
+  <!-- <ion-row>
     <ion-col>
       <ion-button expand="full" (click)="sortByOldest()">Oldest</ion-button>
     </ion-col>
     <ion-col>
       <ion-button expand="full" (click)="sortByNewest()">Newest</ion-button>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
   <ion-card *ngFor="let journal of (journals|async)">
     <ion-card-content>
     
@@ -76,7 +99,7 @@
     </ion-card-content>
   </ion-card>
   
-  <ion-fab vertical="bottom" horizontal="end">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLink="./journalAdd">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
