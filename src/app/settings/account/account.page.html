@@ -1,8 +1,7 @@
 <ion-header>
-  
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/tabs"></ion-back-button>
     </ion-buttons>
     <ion-title>Account</ion-title>
   </ion-toolbar>
@@ -11,29 +10,55 @@
 <ion-content>
   <ion-row>
     <ion-col>
+      <ion-item>
+        <ion-label position="floating">First Name</ion-label>
+        <ion-input type="text" [(ngModel)]="account.fName"></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label position="floating">Last Name</ion-label>
+        <ion-input
+        type="text"
+        [(ngModel)]="account.lName"
+      ></ion-input>
+      </ion-item>
       
-      <ion-input type="text" placeholder="First Name" [(ngModel)]="account.fName"></ion-input>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col>
+      <ion-item routerLink="../change-email">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input
+        type="text"
+        [(ngModel)]="email"
+        readonly="true"
+      ></ion-input>
+      </ion-item>
       
-      <ion-input type="text" placeholder="Last Name" [(ngModel)]="account.lName"></ion-input>
     </ion-col>
   </ion-row>
+  
   <ion-row>
-    <ion-col>
-      <ion-label>Change Email</ion-label>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>
-      <ion-label>Change Password</ion-label>
+    <ion-col >
+      <ion-button expand="full"
+        (click)="updateAccount()"
+        [disabled]="account.fName=='' || account.lName==''"
+        >Save</ion-button
+      >
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col class="ion-text-center">
-      <ion-button (click)="updateAccount()" [disabled]="account.fName=='' || account.lName==''">Save</ion-button>
+      <ion-button expand="full" routerLink="../change-email">Change Email</ion-button>
+
     </ion-col>
-  </ion-row>
+    <ion-col >
+      <ion-button expand="full" routerLink="../password-reset">Change Password</ion-button>
+      
+    </ion-col>
+ </ion-row>
 </ion-content>

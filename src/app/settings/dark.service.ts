@@ -5,7 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class DarkService {
 
-  constructor() { }
+  constructor() {
+    // document.body.classList.toggle('dark', false);
+   }
 
   // Add or remove the "dark" class based on if the media query matches
 toggleDarkTheme(themeToggle) {

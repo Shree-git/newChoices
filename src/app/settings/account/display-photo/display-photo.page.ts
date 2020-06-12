@@ -4,6 +4,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { finalize } from 'rxjs/operators'
 import { Router } from '@angular/router';
 
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-display-photo',
@@ -14,9 +15,12 @@ export class DisplayPhotoPage implements OnInit {
   file: File
   downloadURL: string
   photoUrl: string
-  constructor(private firebase: AngularFireStorage, private authService: AuthenticationService, private router: Router) { }
+  constructor(public photoService: PhotoService,
+    private firebase: AngularFireStorage, private authService: AuthenticationService, private router: Router) { }
   
   ngOnInit() {
+    this.photoService.loadSaved();
+
   }
 
   photoChanged(photo){

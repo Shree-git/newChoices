@@ -26,6 +26,10 @@ const routes: Routes = [
     loadChildren: () => import('./menu/menu.module').then( m => m.MenuPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
  
 ];
 @NgModule({

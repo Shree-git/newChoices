@@ -4,6 +4,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { AccountService } from '../settings/account/account.service';
+import { app } from 'firebase';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class AuthenticationService {
   constructor(
     private afAuth: AngularFireAuth,
     private afStore: AngularFirestore,
-   
+   private alertCtrl: AlertController,
     private router: Router
     ) {
       // this.getUserInfo()
@@ -77,6 +79,7 @@ export class AuthenticationService {
     //  }
 
      register(email, password){
+    
         return this.afAuth.createUserWithEmailAndPassword(email, password)
         
      }
@@ -86,6 +89,116 @@ export class AuthenticationService {
          
     //    })
     //  }
+     updateEmail(email){
+      this.afAuth.onAuthStateChanged((user)=>{
+        if (user){
+          user.updateEmail(email).then(async ()=>{
+          
+            this.user = {
+              uid: user.uid,
+              email: user.email,
+              photoURL: user.photoURL
+            }
+            localStorage.setItem('user', JSON.stringify(this.user))
+            JSON.parse(localStorage.getItem('user'))
+         
+            const alert = this.alertCtrl.create({
+              header: 'Success',
+              message: 'Email successfully changed.',
+              buttons:[{
+                text: 'OK',
+                role: 'OK',
+                handler: ()=>{
+                  this.router.navigate(['/tabs/settings/account'])
+                }}
+                
+              ]
+            })
+            await (await alert).present()
+            
+            // this.user.photoURL = user.photoURL
+          }).catch(async err=>{
+            
+              const alert = this.alertCtrl.create({
+                header: 'Login and try again',
+                message: 'Changing email requires you to login recently.',
+                buttons:[{
+                  text: 'Login',
+                  handler: ()=>{
+                    this.afAuth.signOut()
+                    
+                    this.router.navigate(['/login'])
+                    window.location.reload();
+                    
+                  }},
+                  {
+                    text: 'Cancel',
+                    role: 'cancel',
+                  }
+                ]
+              })
+              await (await alert).present()
+              
+            
+          })
+        }
+      })
+     }
+
+     updatePassword(password){
+      this.afAuth.onAuthStateChanged((user)=>{
+        if (user){
+          user.updatePassword(password).then(async ()=>{
+          
+            this.user = {
+              uid: user.uid,
+              email: user.email,
+              photoURL: user.photoURL
+            }
+            localStorage.setItem('user', JSON.stringify(this.user))
+            JSON.parse(localStorage.getItem('user'))
+         
+            const alert = this.alertCtrl.create({
+              header: 'Success',
+              message: 'Password successfully changed.',
+              buttons:[{
+                text: 'OK',
+                role: 'OK',
+                handler: ()=>{
+                  this.router.navigate(['/tabs/settings/account'])
+                }}
+                
+              ]
+            })
+            await (await alert).present()
+            
+            // this.user.photoURL = user.photoURL
+          }).catch(async err=>{
+            
+              const alert = this.alertCtrl.create({
+                header: 'Login and try again',
+                message: 'Changing password requires you to login recently.',
+                buttons:[{
+                  text: 'Login',
+                  handler: ()=>{
+                    this.afAuth.signOut()
+                   
+                    this.router.navigate(['/login'])
+                    window.location.reload();
+                  }},
+                  {
+                    text: 'Cancel',
+                    role: 'cancel',
+                  }
+                ]
+              })
+              await (await alert).present()
+              
+            
+          })
+        }
+      })
+     }
 
     passwordReset(email){
       return this.afAuth.sendPasswordResetEmail(email)

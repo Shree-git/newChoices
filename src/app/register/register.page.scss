@@ -6,3 +6,34 @@
     margin: 0;
     position: absolute;
 }
+
+.error-message{
+    color: var(--ion-color-danger);
+}
+
+.signupLabel{
+    font-size: 1.6em;
+    font-weight: bold;
+    // color: var(--ion-color-secondary);
+}
+
+.positionCard{
+    position: relative;
+    border-radius: 15px;
+  
+  top: 7%;
+}
+
+
+
+// .roundedCorners{
+//     border-radius: 10px !important;
+//     // // padding-right: 30px;
+//     // // font-size: 0.9em;
+//     border: 1px solid !important;
+//     // --background: rgb(219,219,219) !important;
+//     /* height: 10%; */
+//     /* width: 41%; */
+//     // max-width: 50vw; // this is applying perfectly
+//     // max-height: 10vh;
+// }

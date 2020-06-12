@@ -22,7 +22,7 @@ export class AccountService {
   items: any
   constructor(private authService: AuthenticationService, private afStore: AngularFirestore,
      private location: Location) { 
-       
+       if(this.authService.isLoggedIn){
      this.afStore.collection('users').doc(this.authService.user.uid).collection('accounts').doc<Account>
    (this.authService.user.uid).
    valueChanges().pipe(
@@ -35,6 +35,7 @@ export class AccountService {
      this.account = account
      
    })
+  }
 
      }
 

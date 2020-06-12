@@ -10,7 +10,7 @@ export class SettingsPage implements OnInit {
   themeToggle: boolean = false
   constructor(private darkService: DarkService) { 
 
-
+    this.darkService.toggleDarkTheme(this.themeToggle)
 
   }
 

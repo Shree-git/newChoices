@@ -20,7 +20,12 @@ export class AccountPage implements OnInit {
     fName: '',
     lName: ''
   }
-  constructor(private accountService: AccountService, private location: Location) { }
+  email: string;
+  constructor(private accountService: AccountService, private location: Location, private authService: AuthenticationService) {
+    if(this.authService.isLoggedIn){
+      this.email = this.authService.user.email;
+    }
+   }
 
   ngOnInit() {
     this.account = this.accountService.getAccount()
@@ -29,6 +34,13 @@ export class AccountPage implements OnInit {
   updateAccount(){
     this.accountService.updateAccount(this.account)
     this.location.back()
+  }
+
+  ionViewWillEnter(){
+    if(this.authService.isLoggedIn){
+      this.email = this.authService.user.email;
+    }
+    this.account = this.accountService.getAccount()
   }
   
 }
