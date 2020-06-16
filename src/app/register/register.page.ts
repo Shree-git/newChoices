@@ -105,7 +105,7 @@ export class RegisterPage implements OnInit {
           fName: this.registerForm.get('firstName').value,
           lName: this.registerForm.get('lastName').value
         }
-        this.accountService.updateAccount(this.account)
+        this.accountService.createAccount(this.account)
         
       }).catch(err=>{
         this.loginError = true;

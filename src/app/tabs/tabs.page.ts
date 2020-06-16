@@ -67,7 +67,6 @@ export class TabsPage implements OnInit{
     this.getAccount()
     this.sideMenu()
     this.getPhoto()
-
     this.networkListener = Network.addListener('networkStatusChange', async (status) => {
       console.log("Network status changed", status);
       this.networkStatus = status;

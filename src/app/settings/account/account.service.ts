@@ -17,13 +17,15 @@ export class AccountService {
   account: Account = {
     id: '',
     fName: '',
-    lName: ''
+    lName: '',
+    role: '',
+    darkTheme: null,
   }
   items: any
   constructor(private authService: AuthenticationService, private afStore: AngularFirestore,
      private location: Location) { 
        if(this.authService.isLoggedIn){
-     this.afStore.collection('users').doc(this.authService.user.uid).collection('accounts').doc<Account>
+     this.afStore.collection('accounts').doc<Account>
    (this.authService.user.uid).
    valueChanges().pipe(
      take(1),
@@ -39,23 +41,66 @@ export class AccountService {
 
      }
 
+     createAccount(account){
+      this.afStore.collection('accounts').doc<Account>(this.authService.user.uid).set({
+        fName: account.fName,
+        lName: account.lName,
+        role: 'client',
+        darkTheme: false,
+      }).then((
+        
+      ) =>{
+       this.account = {
+         id: this.authService.user.uid,
+         fName: account.fName,
+         lName: account.lName,
+         role: 'client',
+         darkTheme: false
+       }
+       // this.location.back()
+      })
+      
+     }
+
   updateAccount(account){
    
    
-    this.afStore.collection('users').doc(this.authService.user.uid).collection('accounts').doc<Account>(this.authService.user.uid).set({
+    this.afStore.collection('accounts').doc<Account>(this.authService.user.uid).update({
        fName: account.fName,
-       lName: account.lName
+       lName: account.lName,
+       
      }).then((
        
      ) =>{
       this.account = {
         id: this.authService.user.uid,
         fName: account.fName,
-        lName: account.lName
+        lName: account.lName,
+        role: this.account.role,
+        darkTheme: this.account.darkTheme
       }
       // this.location.back()
      })
      
+}
+
+updateTheme(theme: boolean){
+  this.afStore.collection('accounts').doc<Account>(this.authService.user.uid).update({
+   
+    darkTheme: theme
+
+  }).then((
+    
+  ) =>{
+   this.account = {
+     id: this.authService.user.uid,
+     fName: this.account.fName,
+     lName: this.account.lName,
+     role: this.account.role,
+     darkTheme: theme,
+   }
+   // this.location.back()
+  })
 }
 
 getAccount(): Account{
@@ -69,7 +114,7 @@ getAccount(): Account{
  //       this.account.id = a.payload.doc.id
  //     });
  //   }));
-   this.afStore.collection('users').doc(this.authService.user.uid).collection('accounts').doc<Account>
+   this.afStore.collection('accounts').doc<Account>
    (this.authService.user.uid).
    valueChanges().pipe(
      take(1),
@@ -79,7 +124,6 @@ getAccount(): Account{
      })
    ).subscribe(account=>{
      this.account = account
-     
    })
    return this.account
  

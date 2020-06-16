@@ -41,10 +41,12 @@ export class ResetPasswordPage implements OnInit {
     return this.authService.passwordReset(this.registerForm.get('email').value).then(async ()=>{
       const alert = this.alertCtrl.create({
         header: 'Password Reset Email Sent',
+        cssClass: 'buttonCss',
         message: 'Check you email to reset your password',
         buttons: [{
           text: 'OK',
           role: 'OK',
+          cssClass: 'first-button',
           handler: ()=>{
             this.router.navigate(['../login'])
           }

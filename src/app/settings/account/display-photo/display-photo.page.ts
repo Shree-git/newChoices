@@ -19,7 +19,7 @@ export class DisplayPhotoPage implements OnInit {
     private firebase: AngularFireStorage, private authService: AuthenticationService, private router: Router) { }
   
   ngOnInit() {
-    this.photoService.loadSaved();
+    // this.photoService.loadSaved();
 
   }
 

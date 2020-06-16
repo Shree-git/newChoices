@@ -125,10 +125,7 @@ export class AuthenticationService {
                 buttons:[{
                   text: 'Login',
                   handler: ()=>{
-                    this.afAuth.signOut()
-                    
-                    this.router.navigate(['/login'])
-                    window.location.reload();
+                    this.logOut()
                     
                   }},
                   {
@@ -161,8 +158,10 @@ export class AuthenticationService {
             const alert = this.alertCtrl.create({
               header: 'Success',
               message: 'Password successfully changed.',
+              cssClass: 'buttonCss',
               buttons:[{
                 text: 'OK',
+                cssClass: 'first-button',
                 role: 'OK',
                 handler: ()=>{
                   this.router.navigate(['/tabs/settings/account'])
@@ -178,16 +177,16 @@ export class AuthenticationService {
               const alert = this.alertCtrl.create({
                 header: 'Login and try again',
                 message: 'Changing password requires you to login recently.',
+                cssClass: 'buttonCss',
                 buttons:[{
                   text: 'Login',
+                  cssClass: 'first-button',
                   handler: ()=>{
-                    this.afAuth.signOut()
-                   
-                    this.router.navigate(['/login'])
-                    window.location.reload();
+                    this.logOut()
                   }},
                   {
                     text: 'Cancel',
+                    cssClass: 'second-button',
                     role: 'cancel',
                   }
                 ]

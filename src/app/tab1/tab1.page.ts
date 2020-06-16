@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { AlertController, IonSelect, PopoverController } from '@ionic/angular';
 
 import { PopoverComponent } from '../tab1/popover/popover.component';
+import { AccountService } from '../settings/account/account.service';
+import { DarkService } from '../settings/dark.service';
 
 @Component({
   selector: 'app-tab1',
@@ -21,7 +23,9 @@ export class Tab1Page implements OnInit{
   currentPopover = null;
 
   constructor(private popoverController: PopoverController,
-    private journalService: JournalService, private alertCtrl: AlertController) {
+    private journalService: JournalService,
+    private darkService: DarkService,
+    private accountService: AccountService, private alertCtrl: AlertController) {
       customElements.define('popover-example-page', class ModalContent extends HTMLElement {
         connectedCallback() {
           this.innerHTML = `
@@ -40,6 +44,8 @@ export class Tab1Page implements OnInit{
 
   ngOnInit(){
     this.journals = this.journalService.getAllJournals()
+    this.darkService.toggleDarkTheme(this.accountService.account.darkTheme);
+
   }
 
   ionViewWillEnter(){

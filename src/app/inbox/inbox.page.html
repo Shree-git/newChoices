@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Inbox</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let user of (users|async)" [routerLink]="['./chat/', user.id]">
+    <ion-card-content *ngIf="user.id != myId">
+      <h2>{{ user.fName }} {{user.lName }}</h2>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
