@@ -9,6 +9,8 @@ import { Account } from '../models/account.model';
 import { map, take } from 'rxjs/operators';
 import { Chat } from '../models/chat.model';
 import { of } from 'rxjs';
+import { User } from '../models/user.model';
+import { PresenceService } from '../services/presence.service';
 // import { combineLatest } from 'rxjs/observable/combineLatest';
 @Injectable({
   providedIn: 'root'
@@ -16,10 +18,12 @@ import { of } from 'rxjs';
 export class InboxService {
   usersCollection: AngularFirestoreCollection
   // users: Observable<Account[]>
-  users: Observable<Account[]>
+  users: Observable<any[]>
+  userData: Observable<User[]>
   accounts: Observable<Account>[]
   // messages: Observable<Chat[]>
   messages: any
+  presence$;
   account: Account = {
     id: '',
     fName: '',
@@ -34,7 +38,9 @@ export class InboxService {
     role: '',
     darkTheme: null,
   }
-  constructor(private authService: AuthenticationService, private accService: AccountService,
+  constructor(
+    private presence: PresenceService,
+    private authService: AuthenticationService, private accService: AccountService,
     private afStore: AngularFirestore) {
     this.users = this.afStore.collection('accounts').snapshotChanges().pipe(map(actions => {
       return actions.map(a => {
@@ -70,14 +76,37 @@ export class InboxService {
       return actions.map(a => {
         const data = a.payload.doc.data() as Account
         var id = a.payload.doc.id;
+        var presence$ = this.presence.getPresence(id);
 
+      this.presence.getPresence(id).subscribe(ele=>{
+      console.log(ele)
+      })
+        var account$ = this.afStore.collection('users').doc(id).valueChanges()
+
+        
+        // console.log(account$)
+        // const acc = this.getAccount(id)
+        // // console.log(acc)
+        // return {acc}
+        return { id, ...data, presence$ }
+      })
+    }))
+    return this.users;
+  }
+
+  getUserData(){
+    this.userData = this.afStore.collection('users').snapshotChanges().pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as User
+        var id = a.payload.doc.id;
+        
         // const acc = this.getAccount(id)
         // // console.log(acc)
         // return {acc}
         return { id, ...data }
       })
     }))
-    return this.users;
+    return this.userData;
   }
 
   getAccount(id: string) {
@@ -106,13 +135,13 @@ export class InboxService {
 
     const californiaRef = this.afStore
       .collection("chat", ref => ref.where('sender', '==', sender)
-        .where('receiver', '==', receiver)
-        .orderBy('createdAt', 'asc'));
+        .where('receiver', '==', receiver).limit(50)
+        );
     const coloradoRef = this.afStore
       .collection("chat", ref => ref
         .where('sender', '==', receiver)
-        .where('receiver', '==', sender)
-        .orderBy('createdAt', 'asc'));
+        .where('receiver', '==', sender).limit(50)
+        );
     this.messages =
       combineLatest(californiaRef.valueChanges(),
         coloradoRef.valueChanges()).pipe(

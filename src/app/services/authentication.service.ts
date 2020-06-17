@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AccountService } from '../settings/account/account.service';
 import { app } from 'firebase';
 import { AlertController } from '@ionic/angular';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class AuthenticationService {
     private afAuth: AngularFireAuth,
     private afStore: AngularFirestore,
    private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    private presenceService: PresenceService
     ) {
       // this.getUserInfo()
       // this.usersRef = this.afStore.collection('users')
@@ -80,7 +82,15 @@ export class AuthenticationService {
 
      register(email, password){
     
-        return this.afAuth.createUserWithEmailAndPassword(email, password)
+        return this.afAuth.createUserWithEmailAndPassword(email, password).then(()=>{
+          if(this.isLoggedIn){
+            console.log(this.user.uid)
+            this.afStore.collection('users').doc(this.user.uid).set({uid: this.user.uid ,
+               email: this.user.email,
+              displayName: this.user.displayName,
+            photoURL: this.user.photoURL});
+          }
+        })
         
      }
      
@@ -99,6 +109,9 @@ export class AuthenticationService {
               email: user.email,
               photoURL: user.photoURL
             }
+            this.afStore.collection('users').doc(user.uid).update({
+              email: email
+            })
             localStorage.setItem('user', JSON.stringify(this.user))
             JSON.parse(localStorage.getItem('user'))
          
@@ -213,7 +226,8 @@ export class AuthenticationService {
       return (user !== null) ? true : false
     }
 
-     logOut() {
+     async logOut() {
+      await this.presenceService.setPresence('offline');
       return this.afAuth.signOut().then(()=>{
         // this.user = null
         // this.userData = null
@@ -251,6 +265,9 @@ export class AuthenticationService {
           user.updateProfile({
             photoURL: pURL
           }).then(()=>{
+            this.afStore.collection('users').doc(user.uid).update({
+              photoURL: pURL
+            })
             console.log(pURL)
             console.log(user.photoURL)
             this.user = {

@@ -8,9 +8,36 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let user of (users|async)" [routerLink]="['./chat/', user.id]">
+  <ion-card *ngFor="let user of (users|async)" [routerLink]="['./chat/', user.id]" class="userCard">
+    <!-- <ion-card-header *ngIf="user.id != myId">
+      <div *ngIf="user.presence$ | async as presence" class="onOff"
+      [ngClass]="{
+          'is-success':  presence.status  === 'online',
+          'is-warning': presence.status  === 'away',
+          'is-danger':  presence.status  === 'offline'
+      }"
+>
+
+  {{ presence.status }}
+</div>
+    </ion-card-header> -->
     <ion-card-content *ngIf="user.id != myId">
+      <div *ngIf="user.account$ | async as accounty">
+      <ion-avatar>
+        <ion-img src="accounty.photoURL"></ion-img>
+      </ion-avatar>
+    </div>
       <h2>{{ user.fName }} {{user.lName }}</h2>
+      <div *ngIf="user.presence$ | async as presence" class="onOff"
+      [ngClass]="{
+          'is-success':  presence.status  === 'online',
+          'is-warning': presence.status  === 'away',
+          'is-danger':  presence.status  === 'offline'
+      }"
+>
+
+  {{ presence.status }}
+</div>
     </ion-card-content>
   </ion-card>
 </ion-content>

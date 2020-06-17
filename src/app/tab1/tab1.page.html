@@ -16,11 +16,11 @@
         <ion-icon name="filter" slot="icon-only"></ion-icon>
         
       </ion-button>
-      <ion-button routerLink="/tabs/inbox">
+      <!-- <ion-button routerLink="/tabs/inbox">
 
         <ion-icon name="chatbox-ellipses" slot="icon-only"></ion-icon>
         
-      </ion-button>
+      </ion-button> -->
       <!-- <ion-item [hidden]="hideList">
         <ion-select interface="popover" placeholder="Order By" (ionChange)="onChange($event)" #mySelect>
           <ion-select-option value="newest" >Newest</ion-select-option>
@@ -73,7 +73,13 @@
       <ion-button expand="full" (click)="sortByNewest()">Newest</ion-button>
     </ion-col>
   </ion-row> -->
-  <ion-card *ngFor="let journal of (journals|async)">
+  <ion-card *ngFor="let journal of (journals|async);">
+    <ng-template *ngIf="journal===null; else displayBlock">
+      <ion-card-content class="noJournal">
+        <span>No Journals</span>
+      </ion-card-content>
+    </ng-template>
+    <ng-template #displayBlock>
     <ion-card-content>
     
        
@@ -102,7 +108,11 @@
    
      
     </ion-card-content>
+  </ng-template>
+ 
   </ion-card>
+  
+
   
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLink="./journalAdd">

@@ -3,6 +3,8 @@ import { InboxService } from './inbox.service';
 import { Observable } from 'rxjs';
 import { Account } from '../models/account.model';
 import { AuthenticationService } from '../services/authentication.service';
+import { User } from '../models/user.model';
+import { PresenceService } from '../services/presence.service';
 
 @Component({
   selector: 'app-inbox',
@@ -10,16 +12,39 @@ import { AuthenticationService } from '../services/authentication.service';
   styleUrls: ['./inbox.page.scss'],
 })
 export class InboxPage implements OnInit {
-  users: Observable<Account[]>
+  users: Observable<any[]>
+  userData: Observable<User[]>
   myId: string
-  constructor(private inboxService: InboxService, private authService: AuthenticationService) { 
+  presence$;
+  constructor(
+    private presence: PresenceService,
+    private inboxService: InboxService, private authService: AuthenticationService) { 
     this.myId = this.authService.user.uid
   }
 
   ngOnInit() {
     this.users = this.inboxService.getUsers();
+    this.inboxService.getUsers().subscribe(elem=>{
+      console.log(elem)
+    })
+    // this.inboxService.getUsers().subscribe(user=>{
+    //   user.forEach(elem=>{
+    //     this.presence$ = this.presence.getPresence(elem.id);
+
+    // this.presence.getPresence(elem.id).subscribe(ele=>{
+    //   console.log(ele)
+    // })
+    //   })
+    // });
+    // this.userData = this.inboxService.getUserData();
     // this.users.subscribe(()=>{
       
+    // })
+
+    // this.presence$ = this.presence.getPresence(this.iId);
+
+    // this.presence.getPresence(this.iId).subscribe(elem=>{
+    //   console.log(elem)
     // })
   }
 

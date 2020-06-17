@@ -15,6 +15,7 @@ import { firebaseConfig } from './firebase'
 import { NgCalendarModule  } from 'ionic2-calendar';
 // import { Network } from '@ionic-native/network/ngx';
 import { Platform } from '@ionic/angular';
+import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { Platform } from '@ionic/angular';
     AngularFireAuthModule,
     AngularFireStorageModule,
     NgCalendarModule,
+    OrderModule
  
     
   ],

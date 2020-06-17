@@ -30,6 +30,7 @@
     "@ionic/angular": "^5.0.0",
     "firebase": "^7.14.4",
     "ionic2-calendar": "^0.6.4",
+    "ngx-order-pipe": "^2.0.4",
     "rx": "github:Reactive-Extensions/RxJS",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",

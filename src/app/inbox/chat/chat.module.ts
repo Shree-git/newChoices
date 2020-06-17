@@ -7,13 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { ChatPageRoutingModule } from './chat-routing.module';
 
 import { ChatPage } from './chat.page';
-
+import { OrderModule } from 'ngx-order-pipe';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ChatPageRoutingModule
+    ChatPageRoutingModule,
+    OrderModule
   ],
   declarations: [ChatPage]
 })

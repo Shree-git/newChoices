@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InboxService } from '../inbox.service';
 import { Chat } from 'src/app/models/chat.model';
@@ -8,6 +8,8 @@ import { map } from 'rxjs/operators';
 import { ISODateString } from '@capacitor/core';
 import { Account } from 'src/app/models/account.model';
 import { AccountService } from 'src/app/settings/account/account.service';
+import { IonContent } from '@ionic/angular';
+import { PresenceService } from 'src/app/services/presence.service';
 
 @Component({
   selector: 'app-chat',
@@ -17,6 +19,8 @@ import { AccountService } from 'src/app/settings/account/account.service';
 export class ChatPage implements OnInit {
   iId: string
   message: string = ''
+ 
+  @ViewChild('content',{static: true}) content: IonContent
   chat: Chat = {
 
     message: '',
@@ -31,12 +35,16 @@ export class ChatPage implements OnInit {
   messages: Observable<Chat[]>
   otherMessages: Observable<Chat[]>
   combinedMessages: Observable<Chat[]>
+  presence$;
+
   constructor(private activatedRoute: ActivatedRoute, private inboxService: InboxService, private authService: AuthenticationService,
-    private accountService: AccountService) { 
+    private accountService: AccountService,
+    private presence: PresenceService) { 
     
   }
 
   ngOnInit() {
+    // this.scrollToBottomOnInit();
     const id = this.activatedRoute.snapshot.paramMap.get('chatId')
     this.iId = id
     this.account = this.inboxService.getAccount(this.iId)
@@ -44,8 +52,18 @@ export class ChatPage implements OnInit {
    
     this.myAccount = this.accountService.account
     console.log("my", this.myAccount)
+    this.presence$ = this.presence.getPresence(this.iId);
+
+    this.presence.getPresence(this.iId).subscribe(elem=>{
+      console.log(elem)
+    })
+    // this.presence.getPresence(this.myAccount.id).subscribe(elem=>{
+    //   console.log(elem)
+    // })
     
   }
+
+  
 
   ionViewWillEnter(){
     if(this.iId){
@@ -72,10 +90,31 @@ export class ChatPage implements OnInit {
       //   this.chat = chat
       // })
       this.combinedMessages = this.inboxService.getChat(this.authService.user.uid, this.iId);
-      this.inboxService.getChat(this.authService.user.uid, this.iId).subscribe(item =>{
+      this.inboxService.getChat(this.authService.user.uid, this.iId).subscribe(item=>{
         console.log(item)
+        setTimeout(() => {
+          this.scrollToBottomOnInit();
+        }, 200);
       })
+      // this.combinedMessages.subscribe(item=>{
+      //   setTimeout(() => {
+      //     this.scrollToBottomOnInit();
+      //   }, 500);
+      // })
+      // this.inboxService.getChat(this.authService.user.uid, this.iId).subscribe(item =>{
+      //   // console.log(item)
+      // })
+      setTimeout(() => {
+        this.scrollToBottomOnInit();
+      }, 200);
     }
+  }
+
+  scrollToBottomOnInit() {
+    console.log('scrollToBottom');
+
+      this.content.scrollToBottom();
+    
   }
 
   // sortBy(prop: string) {
@@ -97,7 +136,9 @@ export class ChatPage implements OnInit {
   //     this.otherMessages = this.inboxService.getChat(this.iId, this.authService.user.uid)
   //     this.combinedMessages = zip(this.messages, this.otherMessages)
   // .pipe(map(x => x[0].concat(x[1])))
-  console.log('Message added')
+  setTimeout(() => {
+    this.scrollToBottomOnInit();
+  }, 200);
   // this.combinedMessages = this.inboxService.getChat(this.authService.user.uid, this.iId);
 })
   }
