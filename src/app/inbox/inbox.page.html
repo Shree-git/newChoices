@@ -1,15 +1,43 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs"></ion-back-button>
+    <ion-buttons slot="start"> 
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Inbox</ion-title>
+    <ion-title>Chats</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let user of (users|async)" [routerLink]="['./chat/', user.id]" class="userCard">
-    <!-- <ion-card-header *ngIf="user.id != myId">
+  <div
+    *ngFor="let user of (users|async)"
+    [routerLink]="['./chat/', user.id]"
+    
+  >
+    <div *ngIf="user.id != myId" class="userCard">
+      <div class="avatarP">
+        <ion-avatar *ngIf="user.account$ | async as accounty">
+          <ion-img [src]="accounty.photoURL"></ion-img>
+        </ion-avatar>
+      </div>
+      <div class="name">
+        <h2>{{ user.fName }} {{user.lName }}</h2>
+      </div>
+
+      <div
+        *ngIf="user.presence$ | async as presence"
+        class="onOff"
+        [ngClass]="{
+        'is-success':  presence.status  === 'online',
+        'is-warning': presence.status  === 'away',
+        'is-danger':  presence.status  === 'offline'
+    }"
+      >
+        <!-- {{ presence.status }} -->
+      </div>
+    </div>
+  </div>
+  <!-- <ion-card *ngFor="let user of (users|async)" [routerLink]="['./chat/', user.id]" class="userCard"> -->
+  <!-- <ion-card-header *ngIf="user.id != myId">
       <div *ngIf="user.presence$ | async as presence" class="onOff"
       [ngClass]="{
           'is-success':  presence.status  === 'online',
@@ -21,12 +49,12 @@
   {{ presence.status }}
 </div>
     </ion-card-header> -->
-    <ion-card-content *ngIf="user.id != myId">
-      <div *ngIf="user.account$ | async as accounty">
-      <ion-avatar>
-        <ion-img src="accounty.photoURL"></ion-img>
+  <!-- <ion-card-content *ngIf="user.id != myId">
+      
+      <ion-avatar *ngIf="user.account$ | async as accounty">
+        <ion-img [src]="accounty.photoURL"></ion-img>
       </ion-avatar>
-    </div>
+    
       <h2>{{ user.fName }} {{user.lName }}</h2>
       <div *ngIf="user.presence$ | async as presence" class="onOff"
       [ngClass]="{
@@ -39,5 +67,5 @@
   {{ presence.status }}
 </div>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
 </ion-content>

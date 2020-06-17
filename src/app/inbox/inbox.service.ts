@@ -88,7 +88,9 @@ export class InboxService {
         // const acc = this.getAccount(id)
         // // console.log(acc)
         // return {acc}
-        return { id, ...data, presence$ }
+       
+        return { id, ...data, presence$, account$ }
+        
       })
     }))
     return this.users;

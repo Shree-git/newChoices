@@ -44,7 +44,7 @@ export class Tab1Page implements OnInit{
 
   ngOnInit(){
     this.journals = this.journalService.getAllJournals()
-    this.darkService.toggleDarkTheme(this.accountService.account.darkTheme);
+    // this.darkService.toggleDarkTheme(this.accountService.account.darkTheme);
 
   }
 

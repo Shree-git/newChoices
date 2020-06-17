@@ -13,7 +13,7 @@ export class DarkService {
   // Add or remove the "dark" class based on if the media query matches
 toggleDarkTheme(themeToggle) {
   document.body.classList.toggle('dark', themeToggle);
-  // localStorage.setItem('dark', themeToggle)
+  localStorage.setItem('dark', themeToggle)
   // JSON.parse(localStorage.getItem('dark'))
  
 }

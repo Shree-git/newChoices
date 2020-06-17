@@ -24,9 +24,9 @@ export class InboxPage implements OnInit {
 
   ngOnInit() {
     this.users = this.inboxService.getUsers();
-    this.inboxService.getUsers().subscribe(elem=>{
-      console.log(elem)
-    })
+    // this.inboxService.getUsers().subscribe(elem=>{
+    //   console.log(elem)
+    // })
     // this.inboxService.getUsers().subscribe(user=>{
     //   user.forEach(elem=>{
     //     this.presence$ = this.presence.getPresence(elem.id);

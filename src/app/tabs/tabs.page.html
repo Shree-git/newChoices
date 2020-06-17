@@ -1,5 +1,5 @@
 <ion-menu contentId="content" side="start">
-  <ion-header>
+  <ion-header style="margin-bottom: 8px;">
     <ion-toolbar color="primary" style="padding: 10px 0 10px 10px;">
       
         <ion-avatar
@@ -30,18 +30,22 @@
         </ion-item>
       </ion-menu-toggle>
     </ion-list>
+    <ion-list>
     <ion-menu-toggle auto-hide="false">
       <ion-item routerLink="/tabs/settings" routerDirection="forward"> 
         <ion-icon name="settings" slot="start"></ion-icon>
         Settings
       </ion-item>
     </ion-menu-toggle>
+    </ion-list>
+    <ion-list>
     <ion-menu-toggle auto-hide="false">
-      <ion-item (click)="logOut()" routerDirection="root">
+      <ion-item (click)="logOut()" routerDirection="forward">
         <ion-icon name="log-out-outline" slot="start"></ion-icon>
         Log Out
       </ion-item>
     </ion-menu-toggle>
+  </ion-list>
   </ion-content>
 </ion-menu>
 <ion-router-outlet id="content" main></ion-router-outlet>

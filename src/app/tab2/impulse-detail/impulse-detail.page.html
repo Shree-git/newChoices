@@ -17,15 +17,23 @@
     <ion-card-content>
       <ion-item>
         <ion-label position="stacked">Title</ion-label>
-        <ion-input type="text" disabled="true" [(ngModel)]="impulse.title"></ion-input>
+        <ion-input type="text" placeholder="Enter Title" [(ngModel)]="impulse.title"></ion-input>
       </ion-item>
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="stacked">Rating</ion-label>
-        <ion-input type="number" disabled="true" [(ngModel)]="impulse.rating"></ion-input>
+        <ion-input type="number" [(ngModel)]="impulse.rating"></ion-input>
+      </ion-item> -->
+      <ion-item>
+        <ion-range min="1" max="10" step="1" value="5" pin snaps color="danger" [(ngModel)]="impulse.rating">
+          <ion-label slot="start" size="small" color="danger">1</ion-label>
+          <ion-label slot="end" size="large" color="danger">10</ion-label>
+          <!-- <ion-icon slot="start" size="small" color="danger" name="thermometer"></ion-icon>
+          <ion-icon slot="end" color="danger" name="thermometer"></ion-icon> -->
+        </ion-range>
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Description</ion-label>
-        <ion-textarea autoGrow="true" disabled="true" placeholder="Enter description here..." [(ngModel)]="impulse.detail"></ion-textarea>
+        <ion-textarea autoGrow="true" placeholder="Enter description here..." [(ngModel)]="impulse.detail"></ion-textarea>
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Date Created/Modified</ion-label>

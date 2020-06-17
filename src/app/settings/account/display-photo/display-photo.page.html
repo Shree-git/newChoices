@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs"></ion-back-button>
     </ion-buttons>
-    <ion-title>displayPhoto</ion-title>
+    <ion-title>Display Photo</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -28,9 +28,11 @@
       <!-- <ion-button color="secondary">
         <ion-icon name="image"></ion-icon>
       </ion-button> -->
-      <ion-input type="file" (change)="photoChanged($event)"></ion-input>
+      <input type="file" name="file" id="file" class="inputfile" (change)="photoChanged($event)">
+      <label for="file">Choose an image</label>
   <!-- </div> -->
-    <ion-button expand="block" (click)="savePhoto()" color="tertiary">Upload</ion-button>
+    <ion-button expand="block" (click)="savePhoto()" color="tertiary">
+      <ion-icon name="cloud-upload-outline" style="margin-right: 10px"></ion-icon>Upload</ion-button>
   </div>
 
   

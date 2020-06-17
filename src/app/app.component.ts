@@ -26,12 +26,12 @@ export class AppComponent {
     private router: Router
   ) {
  // Use matchMedia to check the user preference
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+// const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-this.darkService.toggleDarkTheme(prefersDark.matches);
+// this.darkService.toggleDarkTheme(prefersDark.matches);
 
-// Listen for changes to the prefers-color-scheme media query
-prefersDark.addListener((mediaQuery) => this.darkService.toggleDarkTheme(mediaQuery.matches));
+// // Listen for changes to the prefers-color-scheme media query
+// prefersDark.addListener((mediaQuery) => this.darkService.toggleDarkTheme(mediaQuery.matches));
 
     this.initializeApp();
    
@@ -42,6 +42,8 @@ prefersDark.addListener((mediaQuery) => this.darkService.toggleDarkTheme(mediaQu
       this.statusBar.styleDefault();
       // this.splashScreen.hide();
       SplashScreen.hide();
+      this.darkService.toggleDarkTheme(JSON.parse(localStorage.getItem('dark')))
+      console.log('init', JSON.parse(localStorage.getItem('dark')))
     });
   }
 
