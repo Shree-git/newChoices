@@ -1,39 +1,39 @@
 import { Injectable } from '@angular/core';
-import { Journal } from './journal.model';
+import { Account } from '../models/account.model';
 import { AngularFirestoreCollection, AngularFirestore, DocumentReference } from '@angular/fire/firestore/';
 import { AuthenticationService } from '../services/authentication.service';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, of, combineLatest } from 'rxjs';
+import { map, take, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
 export class JournalService {
-  journalsCollection: AngularFirestoreCollection<Journal>
+  usersCollection: AngularFirestoreCollection<Account>
 
-  journals: Observable<Journal[]>
+  users: Observable<Account[]>
   constructor(private afStore: AngularFirestore, private aService: AuthenticationService) {
    
-      this.journalsCollection = this.afStore.collection('users').doc(this.aService.user.uid).collection('journals')
+      this.usersCollection = this.afStore.collection('accounts', ref=>ref.where('therapists', 'array-contains', this.aService.user.uid))
     
    }
 
 
-  getAllJournals(): Observable<Journal[]>{
-    console.log(this.aService.getUser().email)
-    this.journalsCollection = this.afStore.collection('users').doc(this.aService.getUser().uid).collection('journals')
-    this.journals = this.journalsCollection.snapshotChanges().pipe(map(actions=>{
+  getAllJournals(): Observable<Account[]>{
+    // console.log(this.aService.getUser().email)
+    this.usersCollection = this.afStore.collection('accounts', ref=>ref.where('therapists', 'array-contains', this.aService.user.uid))
+    this.users = this.usersCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
-        const data = a.payload.doc.data() as Journal
+        const data = a.payload.doc.data() as Account
         const id = a.payload.doc.id
         return {id, ...data };
       })
     }))
-    return this.journals
+    return this.users
   }
 
   
-  getJournal(journalId: string): Observable<Journal>{
-    return this.journalsCollection.doc<Journal>(journalId).valueChanges().pipe(
+  getJournal(journalId: string): Observable<Account>{
+    return this.usersCollection.doc<Account>(journalId).valueChanges().pipe(
       take(1),
       map(journal=>{
         journal.id = journalId;
@@ -42,30 +42,47 @@ export class JournalService {
     )
   }
 
-  searchJournals(searchWord){
+  searchJournals(searchWord): Observable<Account[]>{
     // searchWord = searchWord.toUpperCase()
-    return this.afStore.collection('users').doc(this.aService.getUser().uid).collection('journals' , ref => 
-    ref.where('title' ,'>=', searchWord).where('title','<=', searchWord+'z')).snapshotChanges().pipe(map(actions=>{
+    return this.afStore.collection('accounts', ref => 
+    ref.where('therapists', 'array-contains', this.aService.user.uid)
+    .where('fName' ,'>=', searchWord)
+    .where('fName','<=', searchWord+'z')).snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
-        const data = a.payload.doc.data() as Journal
+        const data = a.payload.doc.data() as Account
+        const id = a.payload.doc.id
+        return {id, ...data };
+      })
+    }))
+
+    var a = this.afStore.collection('accounts', ref=>ref.where('therapists', 'array-contains', this.aService.user.uid));
+    var b = this.afStore.collection('accounts', ref => 
+    ref.where('fName' ,'>=', searchWord).where('fName','<=', searchWord+'z'));
+    return combineLatest(a.valueChanges(), b.valueChanges()).pipe(switchMap(actions=>{
+        var [a, b] = actions
         // data = {
         //   title: data.title.toLowerCase(),
         //   detail: data.detail,
         //   date: data.date
         // }
-        console.log(data.title)
+        // console.log(data.title)
         // data.title = data.title.toLowerCase()
-        const id = a.payload.doc.id
-        return {id, ...data };
-      })
-    }))
+        var combined = a.concat(b);
+        // console.log(data)
+        return of(combined as Account[])
+      }))
+   
+  }
+
+  getUserDetails(id: string){
+    return this.afStore.collection('users').doc(id).valueChanges();
   }
 
   sortBy(datee: string, desAsc){
-    return this.afStore.collection('users').doc(this.aService.getUser().uid).collection('journals' , ref => 
+    return this.afStore.collection('accounts', ref => 
     ref.orderBy(datee, desAsc)).snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
-        const data = a.payload.doc.data() as Journal
+        const data = a.payload.doc.data() as Account
         // data = {
         //   title: data.title.toLowerCase(),
         //   detail: data.detail,
@@ -79,16 +96,16 @@ export class JournalService {
     // this.journals = this.getAllJournals();
   }
 
-  updateJournal(journal: Journal): Promise<void>{
-    return this.journalsCollection.doc(journal.id).update({title: journal.title,
-    detail: journal.detail, date: new Date().toISOString()})
-  }
+  // updateJournal(journal: Account): Promise<void>{
+  //   return this.usersCollection.doc(journal.id).update({title: journal.title,
+  //   detail: journal.detail, date: new Date().toISOString()})
+  // }
 
-  deleteJournal(journalId: string): Promise<void>{
-    return this.journalsCollection.doc(journalId).delete()
-  }
+  // deleteJournal(journalId: string): Promise<void>{
+  //   return this.usersCollection.doc(journalId).delete()
+  // }
 
-  addJournal(journal: Journal): Promise<DocumentReference>{
-    return this.journalsCollection.add(journal)
-  }
+  // addJournal(journal: Account): Promise<DocumentReference>{
+  //   return this.usersCollection.add(journal)
+  // }
 }

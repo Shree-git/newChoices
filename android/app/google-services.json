@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "364314151779",
+    "firebase_url": "https://choicesnew-a0046.firebaseio.com",
+    "project_id": "choicesnew-a0046",
+    "storage_bucket": "choicesnew-a0046.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364314151779:android:ef7421f08d8e2f046a6156",
+        "android_client_info": {
+          "package_name": "com.shree.choices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364314151779-b79s764dsmo8df81lkb0aj3deu10qhcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeHQIvLku8ORaK8ElpD8hkULeVFx0dXy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364314151779-b79s764dsmo8df81lkb0aj3deu10qhcg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

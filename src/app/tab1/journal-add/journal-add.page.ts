@@ -27,15 +27,15 @@ export class JournalAddPage implements OnInit {
     this.detail = ''
   }
 
-  addJournal(){
-    // this.id = this.title
-    this.journal = {
-      // id: this.id,
-      title: this.title,
-      detail: this.detail,
-      date: new Date().toISOString()
-    }
-    this.journalService.addJournal(this.journal)
-    this.location.back()
-  }
+  // addJournal(){
+  //   // this.id = this.title
+  //   this.journal = {
+  //     // id: this.id,
+  //     title: this.title,
+  //     detail: this.detail,
+  //     date: new Date().toISOString()
+  //   }
+  //   this.journalService.addJournal(this.journal)
+  //   this.location.back()
+  // }
 }

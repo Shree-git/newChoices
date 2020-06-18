@@ -17,7 +17,7 @@ export class PopoverComponent implements OnInit {
 
   sortByOldest(){
 
-    this.journalService.journals = this.journalService.sortBy('date', 'asc');
+    this.journalService.users = this.journalService.sortBy('fName', 'desc');
 
     this.popController.dismiss()
 
@@ -25,7 +25,7 @@ export class PopoverComponent implements OnInit {
   
   sortByNewest(){
 
-    this.journalService.journals = this.journalService.sortBy('date', 'desc')
+    this.journalService.users = this.journalService.sortBy('fName', 'asc')
 
     this.popController.dismiss();
 

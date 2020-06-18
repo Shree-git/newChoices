@@ -1,19 +1,37 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot= start>
-      <ion-back-button></ion-back-button>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab1"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <!-- <ion-buttons slot="end">
       <ion-button (click)="deleteJournal()">
         <ion-icon name="trash"></ion-icon>
       </ion-button>
-    </ion-buttons>
-    <ion-title>{{ journal.title }}</ion-title>
+    </ion-buttons> -->
+    <ion-title>{{ journal.fName }} {{ journal.lName }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <section>
+    <div class="mainDiv" *ngIf="(userDetail|async) as user">
+      <ion-avatar>
+        <ion-img [src]="user.photoURL"></ion-img>
+      </ion-avatar>
+      <ion-label class="email">Name: {{ journal.fName }} {{ journal.lName }}</ion-label>
+      <ion-label class="email">Email: {{ user.email }}</ion-label>
+      
+    </div>
+  </section>
+  <section>
+    <div class="contentDiv">
+      <ion-button expand="block">Journals</ion-button>
+      <ion-button expand="block">Impulses</ion-button>
+      <ion-button expand="block">Calendar</ion-button>
+    </div>
+  </section>
+
+  <!-- <ion-card>
     <ion-card-content>
       <ion-item>
         <ion-label position="stacked">Title</ion-label>
@@ -36,6 +54,5 @@
         
      
     </ion-card-content>
-  </ion-card>
-  
-</ion-content> 
+  </ion-card> -->
+</ion-content>

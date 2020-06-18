@@ -45,7 +45,7 @@ export class AccountService {
       this.afStore.collection('accounts').doc<Account>(this.authService.user.uid).set({
         fName: account.fName,
         lName: account.lName,
-        role: 'client',
+        role: 'therapist',
         darkTheme: false,
       }).then((
         
@@ -54,7 +54,7 @@ export class AccountService {
          id: this.authService.user.uid,
          fName: account.fName,
          lName: account.lName,
-         role: 'client',
+         role: 'therapist',
          darkTheme: false
        }
        // this.location.back()

@@ -10,7 +10,7 @@
 <ion-content>
   <div
     *ngFor="let user of (users|async)"
-    [routerLink]="['./chat/', user.id]"
+    [routerLink]="['./chat/', user.id, user.fName+' '+user.lName]"
     
   >
     <div *ngIf="user.id != myId" class="userCard">

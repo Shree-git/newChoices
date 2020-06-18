@@ -9,6 +9,8 @@ import { Plugins, NetworkStatus, PluginListenerHandle } from '@capacitor/core';
 
 const { Network } = Plugins;
 
+
+
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
@@ -127,7 +129,8 @@ export class TabsPage implements OnInit{
   ionViewDidEnter(){ this.backButtonSubscription = this.platform.backButton.subscribe(()=>{ 
     if ((this.router.isActive('/tabs/tab1', true) && this.router.url === '/tabs/tab1') || 
     (this.router. isActive('/tabs/tab2', true) && this.router.url === '/tabs/tab2') || 
-    (this.router.isActive('/tabs/tab3', true) && this.router.url === '/tabs/tab3')) {
+    (this.router.isActive('/tabs/tab3', true) && this.router.url === '/tabs/tab3') ||
+    (this.router.isActive('/tabs/inbox', true) && this.router.url === '/tabs/inbox')) {
       navigator['app'].exitApp();
     }
     }); } 

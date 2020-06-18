@@ -8,6 +8,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AlertController } from '@ionic/angular';
+import { Account } from 'src/app/models/account.model';
+import { User } from 'src/app/models/user.model';
 // import { Observable } from 'rxjs';
 
 
@@ -17,12 +19,15 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./journal-detail.page.scss'],
 })
 export class JournalDetailPage implements OnInit {
-  journalCollection: AngularFirestoreCollection<Journal>
-  journal: Journal = {
-    title: '',
-    detail: '',
-    date: ''
+  journalCollection: AngularFirestoreCollection<Account>
+  journal: Account = {
+    id: '',
+    fName: '',
+    lName: '',
+    darkTheme: null,
+    role: ''
   }
+  userDetail: any
   iId: string
   constructor(private activatedRoute: ActivatedRoute, private journalService: JournalService,
               private location: Location, private afStore: AngularFirestore, private alertCtrl: AlertController) { }
@@ -32,6 +37,7 @@ export class JournalDetailPage implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('journalId')
     this.iId = id
     
+    
   }
 
   ionViewWillEnter(){
@@ -40,6 +46,11 @@ export class JournalDetailPage implements OnInit {
         console.log(journal)
         this.journal = journal
       })
+
+      this.userDetail = this.journalService.getUserDetails(this.iId)
+    // this.journalService.getUserDetails(this.iId).subscribe(elem=>{
+    //   console.log(elem)
+    // })
     }
   }
 
@@ -53,36 +64,36 @@ export class JournalDetailPage implements OnInit {
   // }
   
 
-  async deleteJournal(){
-    let alert = await this.alertCtrl.create({
-      header: 'Delete',
-      cssClass: 'buttonCss',
-      message: 'Do you want to delete this journal?',
-      buttons: [
-        {
-          text: 'Delete',
-          cssClass: 'first-button',
-          handler: ()=>{
-            this.journalService.deleteJournal(this.iId).then(()=>{
-            this.location.back()
-          })}
-        },
-        {
-          text: 'Cancel',
-          cssClass: 'second-button',
-          role: 'cancel'
-        }
-      ]
-    })
-    await alert.present()
+  // async deleteJournal(){
+  //   let alert = await this.alertCtrl.create({
+  //     header: 'Delete',
+  //     cssClass: 'buttonCss',
+  //     message: 'Do you want to delete this journal?',
+  //     buttons: [
+  //       {
+  //         text: 'Delete',
+  //         cssClass: 'first-button',
+  //         handler: ()=>{
+  //           this.journalService.deleteJournal(this.iId).then(()=>{
+  //           this.location.back()
+  //         })}
+  //       },
+  //       {
+  //         text: 'Cancel',
+  //         cssClass: 'second-button',
+  //         role: 'cancel'
+  //       }
+  //     ]
+  //   })
+  //   await alert.present()
     
-  }
+  // }
 
-  updateJournal(){
-    this.journalService.updateJournal(this.journal).then(()=>{
-      this.location.back()
-    })
-  }
+  // updateJournal(){
+  //   this.journalService.updateJournal(this.journal).then(()=>{
+  //     this.location.back()
+  //   })
+  // }
   // async deleteJournal(){
   //   const res = await this.journalService.deleteJournal(this.journal.id)
   //   this.location.back()

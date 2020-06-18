@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Journal } from './journal.model';
+import { Account } from '../models/account.model';
 import { JournalService } from './journal.service';
 import { Observable } from 'rxjs';
 import { AlertController, IonSelect, PopoverController } from '@ionic/angular';
@@ -7,15 +7,21 @@ import { AlertController, IonSelect, PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../tab1/popover/popover.component';
 import { AccountService } from '../settings/account/account.service';
 import { DarkService } from '../settings/dark.service';
+import {
+  Plugins,
+  PushNotification,
+  PushNotificationToken,
+  PushNotificationActionPerformed } from '@capacitor/core';
 
+const { PushNotifications } = Plugins;
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit{
-  journals: Observable<Journal[]>
-  tempJournals: Observable<Journal[]>
+  users: Observable<Account[]>
+  tempUsers: Observable<Account[]>
   isSearchBarOn: boolean = false
   funnelShow: boolean = false
   hideList:boolean = true;
@@ -43,20 +49,61 @@ export class Tab1Page implements OnInit{
     }
 
   ngOnInit(){
-    this.journals = this.journalService.getAllJournals()
+    this.users = this.journalService.getAllJournals()
     // this.darkService.toggleDarkTheme(this.accountService.account.darkTheme);
+    PushNotifications.requestPermission().then( result => {
+      if (result.granted) {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+      } else {
+        // Show some error
+      }
+    });
 
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener('registration',
+      (token: PushNotificationToken) => {
+        // alert('Push registration success, token: ' + token.value);
+      }
+    );
+
+    // Some issue with our setup and push will not work
+    PushNotifications.addListener('registrationError',
+      (error: any) => {
+        alert('Error on registration: ' + JSON.stringify(error));
+      }
+    );
+
+    // Show us the notification payload if the app is open on our device
+    PushNotifications.addListener('pushNotificationReceived',
+      (notification: PushNotification) => {
+        alert('Push received: ' + JSON.stringify(notification));
+      }
+    );
+
+    PushNotifications.addListener('pushNotificationReceived',
+    (notification: PushNotification) => {
+      alert('Push received: ' + JSON.stringify(notification));
+    }
+  );
+
+    // Method called when tapping on a notification
+    PushNotifications.addListener('pushNotificationActionPerformed',
+      (notification: PushNotificationActionPerformed) => {
+        alert('Push action performed: ' + JSON.stringify(notification));
+      }
+    );
   }
 
   ionViewWillEnter(){
-    this.journals = this.journalService.getAllJournals()
+    this.users = this.journalService.getAllJournals()
   }
 
   doRefresh(event) {
   
     
     setTimeout(() => {
-      this.journals = this.journalService.getAllJournals()
+      this.users = this.journalService.getAllJournals()
       event.target.complete();
     }, 1000);
   }
@@ -83,19 +130,19 @@ export class Tab1Page implements OnInit{
     console.log(ev)
     await popover.present()
     return await popover.onWillDismiss().then(()=>{
-      this.journals = this.journalService.journals;
+      this.users = this.journalService.users;
     })
   }
 
   cancelSearch(){
     this.isSearchBarOn=false;
-    this.journals = this.journalService.journals;
+    this.users = this.journalService.users;
   }
  
 
   dismissPopover() {
     if (this.currentPopover) {
-      this.currentPopover.dismiss().then(() => { this.currentPopover = null; this.journals = this.journalService.getAllJournals(); });
+      this.currentPopover.dismiss().then(() => { this.currentPopover = null; this.users = this.journalService.getAllJournals(); });
     }
   }
 
@@ -118,34 +165,34 @@ export class Tab1Page implements OnInit{
     
   }
 
-  async deleteJournal(id){
-    let alert = await this.alertCtrl.create({
-      header: 'Delete',
-      cssClass: 'buttonCss',
-      message: 'Do you want to delete this journal?',
-      buttons: [{
-        text: 'Delete',
-        cssClass: 'first-button',
-        handler: ()=>{ this.journalService.deleteJournal(id) }
-      },
-      {
-        text: 'Cancel',
-        cssClass: 'second-button',
-        role: 'cancel'
-      }]
-    })
-    await alert.present()
+  // async deleteJournal(id){
+  //   let alert = await this.alertCtrl.create({
+  //     header: 'Delete',
+  //     cssClass: 'buttonCss',
+  //     message: 'Do you want to delete this journal?',
+  //     buttons: [{
+  //       text: 'Delete',
+  //       cssClass: 'first-button',
+  //       handler: ()=>{ this.journalService.deleteJournal(id) }
+  //     },
+  //     {
+  //       text: 'Cancel',
+  //       cssClass: 'second-button',
+  //       role: 'cancel'
+  //     }]
+  //   })
+  //   await alert.present()
    
-  }
+  // }
 
   search(event){
     var searchWord = event.target.value
  
     if (!searchWord || !searchWord.trim()){
-      this.journals = this.journalService.getAllJournals()
+      this.users = this.journalService.getAllJournals()
     }else{
       // console.log(searchWord.toLowerCase())
-      this.journals = this.journalService.searchJournals(searchWord)
+      this.users = this.journalService.searchJournals(searchWord)
     }
   }
 
@@ -167,15 +214,15 @@ export class Tab1Page implements OnInit{
   }
 }
 
-// sortByOldest(){
-//   this.journals = this.journalService.sortBy('date', 'asc')
-//   this.funnelShow = false
-// }
+sortByOldest(){
+  this.users = this.journalService.sortBy('fName', 'asc')
+  this.funnelShow = false
+}
 
-// sortByNewest(){
-//   this.journals = this.journalService.sortBy('date', 'desc')
-//   this.funnelShow = false
-// }
+sortByNewest(){
+  this.users = this.journalService.sortBy('fName', 'desc')
+  this.funnelShow = false
+}
   // search(event){
   //   var searchWord = event.target.value
   //   if (searchWord == 0){
