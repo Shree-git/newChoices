@@ -65,14 +65,17 @@
     </ion-toolbar>
   </ion-header> -->
   
-  <!-- <ion-row>
+  <ion-row>
     <ion-col>
-      <ion-button expand="full" (click)="sortByOldest()">Oldest</ion-button>
+      <ion-button expand="full" color="tertiary" (click)="sortByClients()">Clients</ion-button>
     </ion-col>
     <ion-col>
-      <ion-button expand="full" (click)="sortByNewest()">Newest</ion-button>
+      <ion-button expand="full" color="tertiary" (click)="getAllUsers()">All Users</ion-button>
     </ion-col>
-  </ion-row> -->
+    <ion-col>
+      <ion-button expand="full" color="tertiary" (click)="sortByTherapists()">Therapists</ion-button>
+    </ion-col>
+  </ion-row>
   <ion-card *ngFor="let user of (users|async);">
 
     <ng-template *ngIf="user===null; else displayBlock">
@@ -90,9 +93,12 @@
                 <ion-img [src]="ur.photoURL"></ion-img>
               </ion-avatar>
             </ion-col>
-            <ion-col class="ion-text-left" size='10'>
+            <ion-col class="ion-text-left" size='7'>
               <h2 style="padding-top: 8px"><strong>{{ user.fName }} {{ user.lName }}</strong></h2>
               
+            </ion-col>
+            <ion-col size="3">
+              <ion-label>{{ user.role }}</ion-label>
             </ion-col>
             <!-- <ion-col class="ion-text-right" style="padding: 0">
               <ion-button fill="clear" (click)="deleteJournal(journal.id)" color="secondary">
@@ -120,10 +126,11 @@
   
 
   
-  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="./journalAdd">
-      <ion-icon name="add"></ion-icon>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="./journalAdd" color="tertiary">
+      <!-- <ion-icon name="add"></ion-icon> -->
+      Pair
     </ion-fab-button>
-  </ion-fab> -->
+  </ion-fab>
   <!-- <app-explore-container name="Tab 1 page"></app-explore-container> -->
 </ion-content>

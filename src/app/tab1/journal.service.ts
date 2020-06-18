@@ -13,14 +13,14 @@ export class JournalService {
   users: Observable<Account[]>
   constructor(private afStore: AngularFirestore, private aService: AuthenticationService) {
    
-      this.usersCollection = this.afStore.collection('accounts', ref=>ref.where('therapists', 'array-contains', this.aService.user.uid))
+      this.usersCollection = this.afStore.collection('accounts', ref=>ref.where('role', 'in', ['client', 'therapist']))
     
    }
 
 
   getAllJournals(): Observable<Account[]>{
     // console.log(this.aService.getUser().email)
-    this.usersCollection = this.afStore.collection('accounts', ref=>ref.where('therapists', 'array-contains', this.aService.user.uid))
+    this.usersCollection = this.afStore.collection('accounts', ref=>ref.where('role', 'in', ['client', 'therapist']))
     this.users = this.usersCollection.snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Account
@@ -46,7 +46,7 @@ export class JournalService {
   searchJournals(searchWord): Observable<Account[]>{
     // searchWord = searchWord.toUpperCase()
     return this.afStore.collection('accounts', ref => 
-    ref.where('therapists', 'array-contains', this.aService.user.uid)
+    ref.where('role', 'in', ['client', 'therapist'])
     .where('fName' ,'>=', searchWord)
     .where('fName','<=', searchWord+'z')).snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
@@ -82,8 +82,29 @@ export class JournalService {
 
   sortBy(datee: string, desAsc){
     return this.afStore.collection('accounts', ref => 
-    ref.where('therapists', 'array-contains', this.aService.user.uid)
+    ref.where('role', 'in', ['client', 'therapist'])
     .orderBy(datee, desAsc)).snapshotChanges().pipe(map(actions=>{
+      return actions.map(a =>{
+        const data = a.payload.doc.data() as Account
+        // data = {
+        //   title: data.title.toLowerCase(),
+        //   detail: data.detail,
+        //   date: data.date
+        // }
+        // data.title = data.title.toLowerCase()
+        const id = a.payload.doc.id
+        var account$ = this.afStore.collection('users').doc(id).valueChanges();
+
+        return {id, ...data, account$ };
+      })
+    }))
+    // this.journals = this.getAllJournals();
+  }
+
+  sortByRole(role: string){
+    return this.afStore.collection('accounts', ref => 
+    ref.where('role', '==', role)
+   ).snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Account
         // data = {

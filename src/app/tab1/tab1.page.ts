@@ -214,14 +214,16 @@ export class Tab1Page implements OnInit{
   }
 }
 
-sortByOldest(){
-  this.users = this.journalService.sortBy('fName', 'asc')
-  this.funnelShow = false
+sortByClients(){
+  this.users = this.journalService.sortByRole('client')
 }
 
-sortByNewest(){
-  this.users = this.journalService.sortBy('fName', 'desc')
-  this.funnelShow = false
+getAllUsers(){
+  this.users = this.journalService.getAllJournals();
+}
+
+sortByTherapists(){
+  this.users = this.journalService.sortByRole('therapist')
 }
   // search(event){
   //   var searchWord = event.target.value
