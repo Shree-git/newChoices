@@ -6,4 +6,5 @@ export interface Account{
     darkTheme?: boolean;
     clients?: string[];
     mobileNumber?: string;
+    therapists?: string[];
 }

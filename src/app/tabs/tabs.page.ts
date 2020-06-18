@@ -151,9 +151,9 @@ export class TabsPage implements OnInit{
 
   sideMenu(){
     this.pages = [{
-      title: 'Journal',
+      title: 'Users',
       url: '/tabs/tab1',
-      icon: 'journal'
+      icon: 'people'
     },
     {
       title: 'Chats',

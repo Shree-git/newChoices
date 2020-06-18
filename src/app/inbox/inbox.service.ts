@@ -72,8 +72,7 @@ export class InboxService {
   }
 
   getUsers() {
-    this.users = this.afStore.collection('accounts', ref=>ref
-    .where('therapists', 'array-contains', this.authService.user.uid)).snapshotChanges().pipe(map(actions => {
+    this.users = this.afStore.collection('accounts').snapshotChanges().pipe(map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Account
         var id = a.payload.doc.id;

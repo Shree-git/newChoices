@@ -59,6 +59,7 @@
         color="primary"
         [disabled]="!registerForm.valid"
         (click)="login()"
+        color="tertiary"
         >Login</ion-button
       >
       <div class="validation-errors">
@@ -77,9 +78,9 @@
   <ion-card class="positionCard" style="margin-top: 50px;">
     <ion-card-content class="ion-text-center">
       <h2>Don't have an account? </h2>
-      <ion-button routerLink="../register">Sign Up</ion-button>
+      <ion-button routerLink="../register" color="tertiary">Sign Up</ion-button>
       <h2>Forgot your password?</h2>
-      <ion-button routerLink="../reset-password">Reset Password</ion-button>
+      <ion-button routerLink="../reset-password" color="tertiary">Reset Password</ion-button>
     </ion-card-content>
   </ion-card>
 

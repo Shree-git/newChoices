@@ -11,10 +11,10 @@ const routes: Routes = [
     path: 'journal-detail/:journalId',
     loadChildren: () => import('./journal-detail/journal-detail.module').then( m => m.JournalDetailPageModule)
   },
-  // {
-  //   path: 'journalAdd',
-  //   loadChildren: () => import('./journal-add/journal-add.module').then( m => m.JournalAddPageModule)
-  // }
+  {
+    path: 'journalAdd',
+    loadChildren: () => import('./journal-add/journal-add.module').then( m => m.JournalAddPageModule)
+  }
 ];
 
 @NgModule({

@@ -116,7 +116,7 @@
           </div>
 
           <ion-item>
-            <ion-label position="floating">Confirm Password</ion-label>
+            <ion-label position="floating" >Confirm Password</ion-label>
             <ion-input
               formControlName="cpassword"
               type="password"
@@ -158,6 +158,7 @@
         color="primary"
         [disabled]="!registerForm.valid"
         (click)="register()"
+        color="tertiary"
         >Create Account!</ion-button
       >
       <div class="validation-errors">
@@ -175,7 +176,7 @@
 
   <ion-card class="positionCard">
     <ion-card-content class="ion-text-center">
-      <h2>Already have an account? <ion-button routerLink="../login">Login</ion-button></h2>
+      <h2>Already have an account? <ion-button color="tertiary" routerLink="../login">Login</ion-button></h2>
       
     </ion-card-content>
   </ion-card>

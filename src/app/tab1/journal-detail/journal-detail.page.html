@@ -35,6 +35,27 @@
       <ion-button expand="block" color="secondary" [routerLink]="['./tab1/', user.uid]">Pair</ion-button>
     </div> -->
   </section>
+
+  <section class="pairedUpSec" class="ion-text-center" >
+    <h5 style="margin-top:45px;">{{ pairedUpLabel }}</h5>
+    <div class="pairedUpDiv" *ngFor="let item of pairedUpDetailArray">
+      
+  
+        
+          <div class="av">
+           <ion-avatar >
+             <ion-img [src]="item.temp.photoURL"></ion-img>
+           </ion-avatar>
+          </div>
+          <div class="nm">
+            {{ item.clientDetail.fName }} {{ item.clientDetail.lName }}
+          </div>
+          <div class="btn">
+            <ion-button color="tertiary" (click)="unpair(item.temp.uid)">Unpair</ion-button>
+          </div>
+          
+    </div>
+  </section>
 </main>
   <!-- <ion-card>
     <ion-card-content>

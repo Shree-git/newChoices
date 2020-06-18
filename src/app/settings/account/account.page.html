@@ -60,17 +60,18 @@
       <ion-button expand="full"
         (click)="updateAccount()"
         [disabled]="account.fName=='' || account.lName==''"
+        color="tertiary"
         >Save</ion-button
       >
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col class="ion-text-center">
-      <ion-button expand="full" routerLink="../change-email">Change Email</ion-button>
+      <ion-button expand="full" routerLink="../change-email" color="tertiary">Change Email</ion-button>
 
     </ion-col>
     <ion-col >
-      <ion-button expand="full" routerLink="../password-reset">Change Password</ion-button>
+      <ion-button expand="full" routerLink="../password-reset" color="tertiary">Change Password</ion-button>
       
     </ion-col>
  </ion-row>

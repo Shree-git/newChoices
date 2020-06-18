@@ -38,6 +38,44 @@ ion-content{
     
 }
 
+ion-avatar{
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.pairedUpSec{
+    margin-top: 140px;
+    
+}
+
+.pairedUpDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom:15px;
+    // flex-wrap: wrap;
+    width: 90%;
+    margin: auto;
+    // background-color: var(--ion-color-secondary);
+}
+
+.av{
+    flex:1;
+    // align-items: center;
+}
+
+.nm{
+    flex: 3;
+    // font-weight: 100;
+    // align-items: flex-start !important;
+}
+
+.btn{
+    flex: 1;
+    
+}
+
 // main{
 //     height: 50%;
 //     margin: auto;

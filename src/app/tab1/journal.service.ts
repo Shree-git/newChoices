@@ -4,6 +4,7 @@ import { AngularFirestoreCollection, AngularFirestore, DocumentReference } from 
 import { AuthenticationService } from '../services/authentication.service';
 import { Observable, of, combineLatest } from 'rxjs';
 import { map, take, switchMap } from 'rxjs/operators';
+import * as firebase from 'firebase';
 @Injectable({
   providedIn: 'root'
 })
@@ -78,6 +79,43 @@ export class JournalService {
 
   getUserDetails(id: string){
     return this.afStore.collection('users').doc(id).valueChanges();
+  }
+
+  pair(clientId: string, therapistId: string){
+    return this.afStore.collection("accounts").doc(clientId).set(
+      { therapists:  firebase.firestore.FieldValue.arrayUnion(therapistId) },
+      { merge: true }
+    ).then(()=>{
+      this.afStore.collection("accounts").doc(therapistId).set(
+        { clients: firebase.firestore.FieldValue.arrayUnion(clientId) },
+        { merge: true }
+      )
+    })
+    
+  } 
+
+  unpair(role, id: string, myId: string){
+    if(role=='client'){
+      return this.afStore.collection('accounts').doc(id).set(
+        { therapists: firebase.firestore.FieldValue.arrayRemove(myId)},
+        { merge: true }
+      ).then(()=>{
+        this.afStore.collection('accounts').doc(myId).set(
+          { clients: firebase.firestore.FieldValue.arrayRemove(id)},
+          { merge: true }
+      )})
+    }
+    if(role=='therapist'){
+      return this.afStore.collection('accounts').doc(id).set(
+        { clients: firebase.firestore.FieldValue.arrayRemove(myId)},
+        { merge: true }
+      ).then(()=>{
+        this.afStore.collection('accounts').doc(myId).set(
+          { therapists: firebase.firestore.FieldValue.arrayRemove(id)},
+          { merge: true }
+      )})
+    }
+
   }
 
   sortBy(datee: string, desAsc){

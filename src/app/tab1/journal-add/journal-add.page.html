@@ -1,14 +1,14 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
     </ion-buttons>
-    <ion-title>Add Journal</ion-title>
+    <ion-title>Pair</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <!-- <ion-card>
     <ion-card-header>
       <ion-card-title class="ion-text-center">New Journal</ion-card-title>
     </ion-card-header>
@@ -29,11 +29,24 @@
             <ion-button color="danger" expand="full" (click)="clear()"><ion-icon type="icon-only" name="close"></ion-icon>Clear</ion-button>
           </ion-col>
           <ion-col>
-            <ion-button color="primary" expand="full" (click)="addJournal()"  [disabled]="title==''"><ion-icon type="icon-only" name="add"></ion-icon>Create</ion-button>
+            <ion-button color="primary" expand="full"  [disabled]="title==''"><ion-icon type="icon-only" name="add"></ion-icon>Create</ion-button>
           </ion-col>
         </ion-row>
     
       
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
+  <ion-item color="tertiary">
+    <ion-label>Client</ion-label>
+    <ion-select (ionChange)="changeClient($event)" interface="popover">
+      <ion-select-option *ngFor="let client of clients|async">{{ client.fName }} {{ client.lName }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item color="tertiary">
+    <ion-label>Therapist</ion-label>
+    <ion-select (ionChange)="changeTherapist($event)" interface="popover">
+      <ion-select-option *ngFor="let therapist of therapists|async">{{ therapist.fName }} {{ therapist.lName }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button class="pairBtn" [disabled]="clientSelected == '' || therapistSelected == ''" (click)="pair()" color="secondary" expand="block">Pair</ion-button>
 </ion-content>
