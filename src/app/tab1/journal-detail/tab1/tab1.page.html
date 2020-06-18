@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start" *ngIf="!isSearchBarOn">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
     </ion-buttons>
     <ion-title class="ion-text-center" *ngIf="!isSearchBarOn">
-      Clients
+      Journals
     </ion-title>
-    <ion-searchbar *ngIf="isSearchBarOn" (ionInput)="search($event)" showCancelButton="true" (ionCancel)="cancelSearch()" placeholder="Search by First Name"></ion-searchbar>
+    <ion-searchbar *ngIf="isSearchBarOn" (ionInput)="search($event)" showCancelButton="true" (ionCancel)="cancelSearch()" placeholder="Search by Title"></ion-searchbar>
     <ion-buttons slot="end" *ngIf="!isSearchBarOn">
       <ion-button (click)="isSearchBarOn=true">
         <ion-icon name="search" slot="icon-only"></ion-icon>
@@ -73,44 +73,34 @@
       <ion-button expand="full" (click)="sortByNewest()">Newest</ion-button>
     </ion-col>
   </ion-row> -->
-  <ion-card *ngFor="let user of (users|async);">
-
-    <ng-template *ngIf="user===null; else displayBlock">
+  <ion-card *ngFor="let journal of (journals|async);">
+    <ng-template *ngIf="journal===null; else displayBlock">
       <ion-card-content class="noJournal">
         <span>No Journals</span>
       </ion-card-content>
     </ng-template>
     <ng-template #displayBlock>
-    <ion-card-content >
+    <ion-card-content>
     
        
-          <ion-row style="padding: 0" [routerLink]="['./journal-detail/', user.id]">
-            <ion-col size="2" style="padding: 0">
-              <ion-avatar *ngIf="user.account$|async as ur">
-                <ion-img [src]="ur.photoURL"></ion-img>
-              </ion-avatar>
-            </ion-col>
-            <ion-col class="ion-text-left" size='10'>
-              <h2 style="padding-top: 8px"><strong>{{ user.fName }} {{ user.lName }}</strong></h2>
+          <ion-row>
+            <ion-col class="ion-text-left" [routerLink]="['./journal-detail/', journal.id]" size='9'>
+              <h2 style="padding: 0"><strong>{{ journal.title }}</strong></h2>
               
             </ion-col>
-            <!-- <ion-col class="ion-text-right" style="padding: 0">
-              <ion-button fill="clear" (click)="deleteJournal(journal.id)" color="secondary">
-                <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-              </ion-button>
-            </ion-col> -->
+           
           </ion-row>
-          <!-- <ion-row>
+          <ion-row>
             
           </ion-row>
           <ion-row  [routerLink]="['./journal-detail/', journal.id]">
-            <ion-col style="padding: 0 0 0 20px"> -->
+            <ion-col style="padding: 0 0 0 20px">
               <!-- <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="journal.date" class="ion-no-padding"></ion-datetime> -->
               <!-- <h5 style="padding: 0">{{ journal.date }}</h5> -->
               <!-- <h5 style="padding: 0">{{ journal.detail }}</h5> -->
-              <!-- <ion-datetime displayFormat="MMM DD, YYYY HH:mm a" [(ngModel)]="journal.date" readonly="true" class="ion-no-padding"></ion-datetime>
+              <ion-datetime displayFormat="MMM DD, YYYY HH:mm a" [(ngModel)]="journal.date" readonly="true" class="ion-no-padding"></ion-datetime>
             </ion-col>
-          </ion-row> -->
+          </ion-row>
    
      
     </ion-card-content>
@@ -119,8 +109,8 @@
   </ion-card>
   
 
-  
-  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+<!--   
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLink="./journalAdd">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

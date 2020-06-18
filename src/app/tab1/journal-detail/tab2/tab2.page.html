@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" *ngIf="!isSearchBarOn">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center" *ngIf="!isSearchBarOn">
+      Impulses
+    </ion-title>
+    <ion-searchbar *ngIf="isSearchBarOn" (ionInput)="search($event)" showCancelButton="true" (ionCancel)="cancelSearch()" placeholder="Search by Rating (Enter Number)"></ion-searchbar>
+    <ion-buttons slot="end" *ngIf="!isSearchBarOn">
+      <ion-button (click)="isSearchBarOn=true">
+        <ion-icon name="search" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="openPopover($event)">
+
+        <ion-icon name="filter" slot="icon-only"></ion-icon>
+        
+      </ion-button>
+      <!-- <ion-button (click)="funnelShow=!funnelShow">
+        <ion-icon name="funnel" slot="icon-only"></ion-icon>
+      </ion-button> -->
+      <!-- <button class="sort" id="drop" (click)="dropMenu()">Sort</button>
+      <div class="dropdown">
+        <div id="myDrop" class="dropdown-cont">
+          <a (click)="sortByOldest()">Oldest</a>
+          <a (click)="sortByNewest()">Newest</a>
+        </div>
+      </div> -->
+    </ion-buttons>
+    <!-- <ion-select *ngIf="funnelShow" interface="action-sheet">
+      <ion-select-option (click)="sortByOldest()">Oldest</ion-select-option>
+      <ion-select-option (click)="sortByNewest()">Newest</ion-select-option>
+    </ion-select> -->
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+     
+      refreshingSpinner="circles"
+     >
+    </ion-refresher-content>
+  </ion-refresher>
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">impulse</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+  
+  <!-- <ion-row>
+    <ion-col>
+      <ion-button expand="full" (click)="sortByHighest()">Highest</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button expand="full" (click)="sortByLowest()">Lowest</ion-button>
+    </ion-col>
+  </ion-row> -->
+  <ion-card *ngFor="let impulse of (impulses|async)">
+
+    <ion-card-content>
+    
+      <div style="background-color: var(--ion-color-secondary, #ffffff) ;float: left; height: 50px; width: 50px; text-align: center; font-size: 30px; border-radius: 20%;">
+        <h1 style="padding-top: 25%">{{ impulse.rating }}</h1>
+      </div>
+          <ion-row>
+            <ion-col class="ion-text-left ion-no-padding" [routerLink]="['./impulse-detail/', impulse.id]" size='9'>
+              <ion-item lines="none">
+               
+                  <!-- <ion-badge slot="start" class="ion-no-padding">{{ impulse.rating }}</ion-badge> -->
+                
+                
+                <h2 style="padding: 0"><strong>{{ impulse.title }}</strong></h2>
+              </ion-item>
+              
+              
+            </ion-col>
+            <!-- <ion-col class="ion-text-right" style="padding: 0">
+              <ion-button fill="clear" (click)="deleteImpulse(impulse.id)" color="secondary">
+                <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-col> -->
+          </ion-row>
+
+          <ion-row  [routerLink]="['./impulse-detail/', impulse.id]">
+            <ion-col style="padding: 0 0 0 20px">
+              
+            </ion-col>
+          </ion-row>
+          <ion-row  [routerLink]="['./impulse-detail/', impulse.id]">
+            <ion-col style="padding: 0 0 0 20px">
+              <!-- <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="impulse.date" class="ion-no-padding"></ion-datetime> -->
+              <!-- <h5 style="padding: 0">{{ impulse.date }}</h5> -->
+              <!-- <h5 style="padding: 0">{{ impulse.detail }}</h5> -->
+              <ion-datetime displayFormat="MMM DD, YYYY HH:mm a" [(ngModel)]="impulse.date" readonly="true" class="ion-no-padding"></ion-datetime>
+            </ion-col>
+          </ion-row>
+          
+     
+    </ion-card-content>
+  </ion-card>
+  
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="./impulseAdd">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+  <!-- <app-explore-container name="Tab 1 page"></app-explore-container> -->
+</ion-content>

@@ -4,4 +4,5 @@ export interface Account{
     lName: string;
     role?: string;
     darkTheme?: boolean;
+    clients?: string[];
 }

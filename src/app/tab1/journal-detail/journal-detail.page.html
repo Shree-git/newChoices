@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="tabs/tab1"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
     </ion-buttons>
     <!-- <ion-buttons slot="end">
       <ion-button (click)="deleteJournal()">
@@ -13,9 +13,10 @@
 </ion-header>
 
 <ion-content>
-  <section>
+  <main>
+  <section class="mainSec">
     <div class="mainDiv" *ngIf="(userDetail|async) as user">
-      <ion-avatar>
+      <ion-avatar class="avatar">
         <ion-img [src]="user.photoURL"></ion-img>
       </ion-avatar>
       <ion-label class="email">Name: {{ journal.fName }} {{ journal.lName }}</ion-label>
@@ -23,14 +24,14 @@
       
     </div>
   </section>
-  <section>
+  <section class="contentSec" *ngIf="(userDetail|async) as user">
     <div class="contentDiv">
-      <ion-button expand="block">Journals</ion-button>
-      <ion-button expand="block">Impulses</ion-button>
-      <ion-button expand="block">Calendar</ion-button>
+      <ion-button expand="block" color="secondary" [routerLink]="['./tab1/', user.uid]">Journals</ion-button>
+      <ion-button expand="block" color="secondary" [routerLink]="['./tab2/', user.uid]">Impulses</ion-button>
+      <ion-button expand="block" color="secondary" [routerLink]="['./tab3/', user.uid]">Calendar</ion-button>
     </div>
   </section>
-
+</main>
   <!-- <ion-card>
     <ion-card-content>
       <ion-item>

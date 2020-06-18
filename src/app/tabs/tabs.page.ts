@@ -154,14 +154,11 @@ export class TabsPage implements OnInit{
       title: 'Journal',
       url: '/tabs/tab1',
       icon: 'journal'
-    },{
-      title: 'Impulses',
-      url: '/tabs/tab2',
-      icon: 'stats-chart'
-    },{
-      title: 'Calendar',
-      url: '/tabs/tab3',
-      icon: 'calendar'
+    },
+    {
+      title: 'Chats',
+      url: '/tabs/inbox',
+      icon: 'chatbox-ellipses'
     }]
   }
 

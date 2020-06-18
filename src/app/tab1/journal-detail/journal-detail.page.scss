@@ -13,13 +13,18 @@
 }
 
 ion-avatar{
-    max-width: 100px;
-    max-height: 100px;
+    width: 100px;
+    height: 100px;
     margin-bottom: 10px;
 }
 
-section{
-    margin-top: 20px;
+.mainSec{
+    margin-top: 100px;
+    
+}
+
+.contentSec{
+    margin-top: 50px;
 }
 
 .email{
@@ -28,5 +33,14 @@ section{
     // margin-top: 10px;
 
 }
+
+ion-content{
+    
+}
+
+// main{
+//     height: 50%;
+//     margin: auto;
+// }
 
 

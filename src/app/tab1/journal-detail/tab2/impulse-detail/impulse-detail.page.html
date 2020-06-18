@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot= start>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <!-- <ion-buttons slot="end">
+      <ion-button (click)="deleteImpulse()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+    <ion-title>{{ impulse.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Title</ion-label>
+        <ion-input readonly="true" type="text" placeholder="Enter Title" [(ngModel)]="impulse.title"></ion-input>
+      </ion-item>
+      <!-- <ion-item>
+        <ion-label position="stacked">Rating</ion-label>
+        <ion-input type="number" [(ngModel)]="impulse.rating"></ion-input>
+      </ion-item> -->
+      <ion-item>
+        <ion-range disabled="true" min="1" max="10" step="1" value="5" pin snaps color="danger" [(ngModel)]="impulse.rating">
+          <!-- <ion-label slot="start" size="small" color="danger">1</ion-label> -->
+          <ion-label slot="end" size="large" color="danger">{{ impulse.rating }}</ion-label>
+          <!-- <ion-icon slot="start" size="small" color="danger" name="thermometer"></ion-icon>
+          <ion-icon slot="end" color="danger" name="thermometer"></ion-icon> -->
+        </ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Description</ion-label>
+        <ion-textarea autoGrow="true" readonly="true" placeholder="Enter description here..." [(ngModel)]="impulse.detail"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Date Created/Modified</ion-label>
+        <ion-datetime displayFormat="MMM DD, YYYY HH:mm a" [(ngModel)]="impulse.date" readonly="true" class="ion-no-padding"></ion-datetime>
+      </ion-item>
+     <!-- <div class="ion-text-center">
+      <ion-button [disabled]="impulse.title==''" (click)="updateImpulse()" class="ion-padding">
+        <ion-icon name="create"></ion-icon>
+        UPDATE
+      </ion-button>
+     </div> -->
+        
+     
+    </ion-card-content>
+  </ion-card>
+  
+</ion-content> 

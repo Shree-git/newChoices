@@ -25,7 +25,8 @@ export class JournalService {
       return actions.map(a =>{
         const data = a.payload.doc.data() as Account
         const id = a.payload.doc.id
-        return {id, ...data };
+        var account$ = this.afStore.collection('users').doc(id).valueChanges();
+        return {id, ...data, account$ };
       })
     }))
     return this.users
@@ -51,26 +52,27 @@ export class JournalService {
       return actions.map(a =>{
         const data = a.payload.doc.data() as Account
         const id = a.payload.doc.id
-        return {id, ...data };
+        var account$ = this.afStore.collection('users').doc(id).valueChanges();
+        return {id, ...data, account$ };
       })
     }))
 
-    var a = this.afStore.collection('accounts', ref=>ref.where('therapists', 'array-contains', this.aService.user.uid));
-    var b = this.afStore.collection('accounts', ref => 
-    ref.where('fName' ,'>=', searchWord).where('fName','<=', searchWord+'z'));
-    return combineLatest(a.valueChanges(), b.valueChanges()).pipe(switchMap(actions=>{
-        var [a, b] = actions
-        // data = {
-        //   title: data.title.toLowerCase(),
-        //   detail: data.detail,
-        //   date: data.date
-        // }
-        // console.log(data.title)
-        // data.title = data.title.toLowerCase()
-        var combined = a.concat(b);
-        // console.log(data)
-        return of(combined as Account[])
-      }))
+    // var a = this.afStore.collection('accounts', ref=>ref.where('therapists', 'array-contains', this.aService.user.uid));
+    // var b = this.afStore.collection('accounts', ref => 
+    // ref.where('fName' ,'>=', searchWord).where('fName','<=', searchWord+'z'));
+    // return combineLatest(a.valueChanges(), b.valueChanges()).pipe(switchMap(actions=>{
+    //     var [a, b] = actions
+    //     // data = {
+    //     //   title: data.title.toLowerCase(),
+    //     //   detail: data.detail,
+    //     //   date: data.date
+    //     // }
+    //     // console.log(data.title)
+    //     // data.title = data.title.toLowerCase()
+    //     var combined = a.concat(b);
+    //     // console.log(data)
+    //     return of(combined as Account[])
+    //   }))
    
   }
 
@@ -80,7 +82,8 @@ export class JournalService {
 
   sortBy(datee: string, desAsc){
     return this.afStore.collection('accounts', ref => 
-    ref.orderBy(datee, desAsc)).snapshotChanges().pipe(map(actions=>{
+    ref.where('therapists', 'array-contains', this.aService.user.uid)
+    .orderBy(datee, desAsc)).snapshotChanges().pipe(map(actions=>{
       return actions.map(a =>{
         const data = a.payload.doc.data() as Account
         // data = {
@@ -90,7 +93,9 @@ export class JournalService {
         // }
         // data.title = data.title.toLowerCase()
         const id = a.payload.doc.id
-        return {id, ...data };
+        var account$ = this.afStore.collection('users').doc(id).valueChanges();
+
+        return {id, ...data, account$ };
       })
     }))
     // this.journals = this.getAllJournals();
