@@ -5,4 +5,5 @@ export interface Account{
     role?: string;
     darkTheme?: boolean;
     clients?: string[];
+    mobileNumber?: string;
 }

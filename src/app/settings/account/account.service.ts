@@ -20,7 +20,8 @@ export class AccountService {
     lName: '',
     role: '',
     darkTheme: null,
-    clients: []
+    clients: [],
+    mobileNumber: ''
   }
   items: any
   constructor(private authService: AuthenticationService, private afStore: AngularFirestore,
@@ -48,6 +49,7 @@ export class AccountService {
         lName: account.lName,
         role: 'therapist',
         darkTheme: false,
+        mobileNumber: account.mobileNumber
       }).then((
         
       ) =>{
@@ -57,7 +59,8 @@ export class AccountService {
          lName: account.lName,
          role: 'therapist',
          darkTheme: false,
-         clients: []
+         clients: [],
+         mobileNumber: account.mobileNumber
        }
        // this.location.back()
       })
@@ -70,7 +73,7 @@ export class AccountService {
     this.afStore.collection('accounts').doc<Account>(this.authService.user.uid).update({
        fName: account.fName,
        lName: account.lName,
-       
+       mobileNumber: account.mobileNumber
      }).then((
        
      ) =>{
@@ -80,7 +83,8 @@ export class AccountService {
         lName: account.lName,
         role: this.account.role,
         darkTheme: this.account.darkTheme,
-        clients: []
+        clients: [],
+        mobileNumber: account.mobileNumber
       }
       // this.location.back()
      })
@@ -101,7 +105,8 @@ updateTheme(theme: boolean){
      lName: this.account.lName,
      role: this.account.role,
      darkTheme: theme,
-     clients: []
+     clients: [],
+     mobileNumber: this.account.mobileNumber
    }
    // this.location.back()
   })
