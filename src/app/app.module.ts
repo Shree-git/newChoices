@@ -11,11 +11,15 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth'
 import { AngularFireStorageModule } from '@angular/fire/storage'
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { firebaseConfig } from './firebase'
 import { NgCalendarModule  } from 'ionic2-calendar';
 // import { Network } from '@ionic-native/network/ngx';
 import { Platform } from '@ionic/angular';
 import { OrderModule } from 'ngx-order-pipe';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+// import { FCM } from '@ionic-native/fcm/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,15 +31,16 @@ import { OrderModule } from 'ngx-order-pipe';
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFireStorageModule,
+    AngularFireMessagingModule,
     NgCalendarModule,
-    OrderModule
- 
+    OrderModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     
   ],
   providers: [
     StatusBar,
     SplashScreen,
-
+    // FCM,
     Platform,
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

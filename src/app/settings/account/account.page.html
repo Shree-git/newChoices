@@ -30,6 +30,18 @@
   </ion-row>
   <ion-row>
     <ion-col>
+      <ion-item>
+        <ion-label position="floating">Phone Number</ion-label>
+        <ion-input
+        type="text"
+        [(ngModel)]="account.mobileNumber"
+      ></ion-input>
+      </ion-item>
+      
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
       <ion-item routerLink="../change-email">
         <ion-label position="floating">Email</ion-label>
         <ion-input
@@ -46,6 +58,7 @@
     <ion-col >
       <ion-button expand="full"
         (click)="updateAccount()"
+        color="tertiary"
         [disabled]="account.fName=='' || account.lName==''"
         >Save</ion-button
       >
@@ -53,11 +66,11 @@
   </ion-row>
   <ion-row>
     <ion-col class="ion-text-center">
-      <ion-button expand="full" routerLink="../change-email">Change Email</ion-button>
+      <ion-button expand="full" routerLink="../change-email" color="tertiary">Change Email</ion-button>
 
     </ion-col>
     <ion-col >
-      <ion-button expand="full" routerLink="../password-reset">Change Password</ion-button>
+      <ion-button expand="full" routerLink="../password-reset" color="tertiary">Change Password</ion-button>
       
     </ion-col>
  </ion-row>

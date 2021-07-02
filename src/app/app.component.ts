@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 // import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -8,22 +8,24 @@ import { LoginPageRoutingModule } from './login/login-routing.module';
 import { DarkService } from './settings/dark.service';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
+import { MessagingService } from './services/messaging.service';
 const { SplashScreen } = Plugins;
-
+import { filter, take } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   backButtonSubscription;
   constructor(
     private platform: Platform,
     // private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authService: AuthenticationService,
+    public authService: AuthenticationService,
     private darkService: DarkService,
-    private router: Router
+    private router: Router,
+    private msg: MessagingService
   ) {
  // Use matchMedia to check the user preference
 // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -34,7 +36,11 @@ export class AppComponent {
 // prefersDark.addListener((mediaQuery) => this.darkService.toggleDarkTheme(mediaQuery.matches));
 
     this.initializeApp();
-   
+    
+  }
+
+  ngOnInit(){
+  
   }
 
   initializeApp() {
@@ -44,6 +50,12 @@ export class AppComponent {
       SplashScreen.hide();
       this.darkService.toggleDarkTheme(JSON.parse(localStorage.getItem('dark')))
       console.log('init', JSON.parse(localStorage.getItem('dark')))
+      this.authService.getUserDoc().pipe(filter(user => !!user)).pipe(take(1)).subscribe(user => {
+        this.msg.getPermission(user);
+        this.msg.monitorRefresh(user)
+        this.msg.receiveMessages();
+        // this.msg.onNotifications();
+      })
     });
   }
 

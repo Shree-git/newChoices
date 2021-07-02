@@ -7,6 +7,10 @@ import { AccountService } from '../settings/account/account.service';
 import { app } from 'firebase';
 import { AlertController } from '@ionic/angular';
 import { PresenceService } from './presence.service';
+import { Observable, of } from 'rxjs';
+// import { switchMap } from 'rxjs/operators'
+// import { Observable } from 'rxjs/Observable';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +31,7 @@ export class AuthenticationService {
       // this.usersRef = this.afStore.collection('users')
       // this.usersRef = this.usersRef.where('uid','==', this.user.uid)
       this.user = JSON.parse(localStorage.getItem('user'))
+      console.log(this.user)
       this.afAuth.onAuthStateChanged((user)=>{
         // if (user){
         //   console.log(user.uid)
@@ -55,6 +60,8 @@ export class AuthenticationService {
             localStorage.setItem('user', null)
             this.user = JSON.parse(localStorage.getItem('user'))
           }
+          console.log(this.user)
+
         })
       
   
@@ -100,6 +107,17 @@ export class AuthenticationService {
          
     //    })
     //  }
+    getUserDoc(){
+      var user: Observable<User>;
+      user = this.afAuth.authState.pipe(switchMap(user => {
+        if (user) {
+          return this.afStore.doc<User>(`users/${user.uid}`).valueChanges()
+        } else {
+          return of(null)
+        }
+      }))
+      return user
+    }
      updateEmail(email){
       this.afAuth.onAuthStateChanged((user)=>{
         if (user){
@@ -293,6 +311,13 @@ export class AuthenticationService {
       }
       return user
     }
+
+    // signInWithGoogle() {
+    //   const provider = new auth.GoogleAuthProvider();
+    //   const scopes = ['profile', 'email'];
+    //   return this.socialSignIn(provider.providerId, scopes);
+    // }
+    
 
     
 }

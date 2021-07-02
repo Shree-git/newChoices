@@ -20,6 +20,7 @@ export class RegisterPage implements OnInit {
       this.registerForm = this.formBuilder.group({
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
+        phoneNumber: ['', Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
         email: ['', Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -51,6 +52,9 @@ export class RegisterPage implements OnInit {
     ],
     lastName: [
       { type: 'required', message: 'Last Name is required' }
+    ],
+    phoneNumber: [
+      { type: 'pattern', message: 'Please enter a valid phone number' }
     ],
     email: [
       { type: 'required', message: 'Email is required' },
@@ -103,7 +107,8 @@ export class RegisterPage implements OnInit {
         this.router.navigate(['/tabs'])
         this.account = {
           fName: this.registerForm.get('firstName').value,
-          lName: this.registerForm.get('lastName').value
+          lName: this.registerForm.get('lastName').value,
+          mobileNumber: this.registerForm.get('phoneNumber').value
         }
         this.accountService.createAccount(this.account)
         

@@ -18,7 +18,8 @@ export class AccountPage implements OnInit {
   account: Account = {
     id: '',
     fName: '',
-    lName: ''
+    lName: '',
+    mobileNumber: ''
   }
   email: string;
   constructor(private accountService: AccountService, private location: Location, private authService: AuthenticationService) {

@@ -30,6 +30,7 @@ export class ChatPage implements OnInit {
     senderName: '',
     receiverName: ''
   }
+  name: string;
   account: Account
   myAccount: Account
   messages: Observable<Chat[]>
@@ -46,11 +47,13 @@ export class ChatPage implements OnInit {
   ngOnInit() {
     // this.scrollToBottomOnInit();
     const id = this.activatedRoute.snapshot.paramMap.get('chatId')
+    const namee = this.activatedRoute.snapshot.paramMap.get('name')
     this.iId = id
     this.account = this.inboxService.getAccount(this.iId)
     console.log(this.account)
    
     this.myAccount = this.accountService.account
+    this.name = namee;
     console.log("my", this.myAccount)
     this.presence$ = this.presence.getPresence(this.iId);
 
@@ -67,6 +70,8 @@ export class ChatPage implements OnInit {
 
   ionViewWillEnter(){
     if(this.iId){
+      this.account = this.inboxService.getAccount(this.iId)
+      console.log(this.account)
       // var id = this.activatedRoute.snapshot.paramMap.get('chatId')
       // this.iId = id
       // // this.inboxService.getAccount(id)

@@ -38,6 +38,7 @@ export class InboxService {
     role: '',
     darkTheme: null,
   }
+  data: BehaviorSubject<any> = new BehaviorSubject(0);
   constructor(
     private presence: PresenceService,
     private authService: AuthenticationService, private accService: AccountService,
@@ -72,7 +73,8 @@ export class InboxService {
   }
 
   getUsers() {
-    this.users = this.afStore.collection('accounts').snapshotChanges().pipe(map(actions => {
+    this.users = this.afStore.collection('accounts',
+    ref=>ref.where('clients', 'array-contains', this.authService.user.uid)).snapshotChanges().pipe(map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Account
         var id = a.payload.doc.id;
@@ -83,13 +85,22 @@ export class InboxService {
       })
         var account$ = this.afStore.collection('users').doc(id).valueChanges()
 
+        var unreadCount = this.getData().subscribe(dat=>{
+          console.log(dat)
+          console.log(dat.length)
+          return dat.length
+        })
+        console.log(unreadCount)
+      
+
+        
         
         // console.log(account$)
         // const acc = this.getAccount(id)
         // // console.log(acc)
         // return {acc}
        
-        return { id, ...data, presence$, account$ }
+        return { id, ...data, presence$, account$, unreadCount }
         
       })
     }))
@@ -182,6 +193,73 @@ export class InboxService {
     // }))
   }
 
+  getUnreadChat(sender: string, receiver: string) {
+    // var count;
+   this.afStore.collection("chat", ref=> ref.where('sender', '==', sender).where('receiver', '==', receiver)
+      .where('read', '==', false)
+    ).valueChanges().subscribe(count=>{
+      this.data.next(count)
+    })
+  
+    // return this.afStore.collection('users').doc(this.authService.user.uid).collection('chat').doc<Chat>(chatId).valueChanges().pipe(
+    //   // take(1),
+    //   map(chat=>{
+    //     chat.id = chatId;
+    //     return chat
+    //   })
+    // )
+
+    // const californiaRef = this.afStore
+    //   .collection("chat", ref => ref.where('sender', '==', sender)
+    //     .where('receiver', '==', receiver).limit(50)
+    //     );
+    // const coloradoRef = this.afStore
+    //   .collection("chat", ref => ref
+    //     .where('sender', '==', receiver)
+    //     .where('receiver', '==', sender).limit(50)
+    //     );
+    // this.messages =
+    //   combineLatest(californiaRef.valueChanges(),
+    //     coloradoRef.valueChanges()).pipe(
+    // switchMap(cities => {
+    //       const [californiaCities, coloradoCities] = cities;
+    //       const combined = californiaCities.concat(coloradoCities);
+
+    //       return of(combined);
+    //     }));
+
+
+    // .pipe(
+    //   map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) ),)
+
+    // this.messages = this.afStore.collection('chat', ref => {
+    //   return ref.where('sender', 'in', [sender, receiver])
+    //     // .where('sender', '==', receiver)
+    //     // .where('receiver', '==', sender)
+    //     .where('receiver', '==', receiver)
+    //     .orderBy('createdAt', 'asc')
+    // })
+    //   .snapshotChanges()
+    //   .pipe(map(actions => {
+    //     return actions.map(a => {
+    //       const data = a.payload.doc.data() as Chat
+    //       const id = a.payload.doc.id
+    //       return { id, ...data };
+    //     })
+    //   }))
+
+    return this.messages
+    // this.journals = this.journalsCollection.snapshotChanges().pipe(map(actions=>{
+    //   return actions.map(a =>{
+    //     const data = a.payload.doc.data() as Journal
+    //     const id = a.payload.doc.id
+    //     return {id, ...data };
+    //   })
+    // }))
+  }
+  getData() {
+    return this.data.asObservable();
+  }
   // getOtherChat(chatId: string): Observable<Chat>{
   //   return this.afStore.collection('users').doc(chatId).collection('chat').doc<Chat>(this.authService.user.uid).valueChanges().pipe(
   //     // take(1),

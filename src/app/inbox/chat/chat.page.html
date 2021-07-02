@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/inbox"></ion-back-button>
     </ion-buttons>
-    <ion-title>Chat
+    <ion-title>{{ name }}
     <div *ngIf="presence$ | async as presence" class="onOff"
       [ngClass]="{
           'is-success':  presence.status  === 'online',

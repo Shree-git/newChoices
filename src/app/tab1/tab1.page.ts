@@ -7,7 +7,14 @@ import { AlertController, IonSelect, PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../tab1/popover/popover.component';
 import { AccountService } from '../settings/account/account.service';
 import { DarkService } from '../settings/dark.service';
+import {
+  Plugins,
+  PushNotification,
+  PushNotificationToken,
+  PushNotificationActionPerformed } from '@capacitor/core';
+import { Router } from '@angular/router';
 
+const { PushNotifications } = Plugins;
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -25,27 +32,69 @@ export class Tab1Page implements OnInit{
   constructor(private popoverController: PopoverController,
     private journalService: JournalService,
     private darkService: DarkService,
-    private accountService: AccountService, private alertCtrl: AlertController) {
-      customElements.define('popover-example-page', class ModalContent extends HTMLElement {
-        connectedCallback() {
-          this.innerHTML = `
-            <ion-list>
-              <ion-list-header>Ionic</ion-list-header>
-              <ion-item button>Learn Ionic</ion-item>
-              <ion-item button>Documentation</ion-item>
-              <ion-item button>Showcase</ion-item>
-              <ion-item button>GitHub Repo</ion-item>
-              <ion-item lines="none" detail="false" button onClick="dismissPopover()">Close</ion-item>
-            </ion-list>
-          `;
-        }
-      });
+    private accountService: AccountService, private alertCtrl: AlertController, private router: Router) {
+      // customElements.define('popover-example-page', class ModalContent extends HTMLElement {
+      //   connectedCallback() {
+      //     this.innerHTML = `
+      //       <ion-list>
+      //         <ion-list-header>Ionic</ion-list-header>
+      //         <ion-item button>Learn Ionic</ion-item>
+      //         <ion-item button>Documentation</ion-item>
+      //         <ion-item button>Showcase</ion-item>
+      //         <ion-item button>GitHub Repo</ion-item>
+      //         <ion-item lines="none" detail="false" button onClick="dismissPopover()">Close</ion-item>
+      //       </ion-list>
+      //     `;
+      //   }
+      // });
     }
 
   ngOnInit(){
     this.journals = this.journalService.getAllJournals()
     // this.darkService.toggleDarkTheme(this.accountService.account.darkTheme);
+  //   PushNotifications.requestPermission().then( result => {
+  //     if (result.granted) {
+  //       // Register with Apple / Google to receive push via APNS/FCM
+  //       PushNotifications.register();
+  //     } else {
+  //       // Show some error
+  //     }
+  //   });
 
+  //   // On success, we should be able to receive notifications
+  //   PushNotifications.addListener('registration',
+  //     (token: PushNotificationToken) => {
+  //       // alert('Push registration success, token: ' + token.value);
+  //     }
+  //   );
+
+  //   // Some issue with our setup and push will not work
+  //   PushNotifications.addListener('registrationError',
+  //     (error: any) => {
+  //       alert('Error on registration: ' + JSON.stringify(error));
+  //     }
+  //   );
+
+  //   // Show us the notification payload if the app is open on our device
+  //   PushNotifications.addListener('pushNotificationReceived',
+  //     (notification: PushNotification) => {
+  //       alert('Push received: ' + JSON.stringify(notification));
+  //     }
+  //   );
+
+  //   PushNotifications.addListener('pushNotificationReceived',
+  //   (notification: PushNotification) => {
+  //     alert('Push received: ' + JSON.stringify(notification));
+  //   }
+  // );
+
+    // Method called when tapping on a notification
+    // PushNotifications.addListener('pushNotificationActionPerformed',
+    //   (notification: PushNotificationActionPerformed) => {
+    //     this.router.navigate(['/tabs/inbox'])
+    //     // alert('Push action performed: ' + JSON.stringify(notification));
+    //   }
+    // );
   }
 
   ionViewWillEnter(){

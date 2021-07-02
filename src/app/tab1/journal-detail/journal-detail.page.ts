@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JournalService } from '../journal.service';
 import { Journal } from '../journal.model';
 import { Location } from '@angular/common'
-import { FirestoreService } from 'src/app/services/firebase.service';
+
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';

@@ -3,14 +3,14 @@
     <ion-buttons slot="start"> 
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Chats</ion-title>
+    <ion-title style="margin-left: 100px;">Chats</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div
     *ngFor="let user of (users|async)"
-    [routerLink]="['./chat/', user.id]"
+    [routerLink]="['./chat/', user.id, user.fName+' '+user.lName]"
     
   >
     <div *ngIf="user.id != myId" class="userCard">
@@ -22,6 +22,9 @@
       <div class="name">
         <h2>{{ user.fName }} {{user.lName }}</h2>
       </div>
+      <!-- <div *ngIf="user.unreadCount | async as unread" class="numOfMsg">
+        <h4>{{ unread }}</h4>
+      </div> -->
 
       <div
         *ngIf="user.presence$ | async as presence"

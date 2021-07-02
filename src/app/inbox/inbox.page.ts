@@ -16,6 +16,7 @@ export class InboxPage implements OnInit {
   userData: Observable<User[]>
   myId: string
   presence$;
+  
   constructor(
     private presence: PresenceService,
     private inboxService: InboxService, private authService: AuthenticationService) { 

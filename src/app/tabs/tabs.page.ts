@@ -6,8 +6,11 @@ import { Platform, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 // import { Network } from '@ionic-native/network/ngx';
 import { Plugins, NetworkStatus, PluginListenerHandle } from '@capacitor/core';
+import { MessagingService } from '../services/messaging.service';
 
 const { Network } = Plugins;
+
+
 
 @Component({
   selector: 'app-tabs',
@@ -29,7 +32,8 @@ export class TabsPage implements OnInit{
     // private networkStatus: NetworkStatus,
     // private networkListener: PluginListenerHandle,
     private router: Router,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController, 
+    public msg: MessagingService
   ) {
 //               // watch network for a disconnection
 // let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
@@ -98,7 +102,12 @@ export class TabsPage implements OnInit{
     });
 
     this.networkStatus = await Network.getStatus();
-  
+    // if(this.authService.user){
+    //   this.msg.getPermission(this.authService.user)
+    //   this.msg.monitorRefresh(this.authService.user)
+    //   this.msg.receiveMessages()
+    // }
+    
     // this.getUser()
     // console.log(this.user.photoURL)
     // console.log(this.user.uid)
@@ -127,7 +136,8 @@ export class TabsPage implements OnInit{
   ionViewDidEnter(){ this.backButtonSubscription = this.platform.backButton.subscribe(()=>{ 
     if ((this.router.isActive('/tabs/tab1', true) && this.router.url === '/tabs/tab1') || 
     (this.router. isActive('/tabs/tab2', true) && this.router.url === '/tabs/tab2') || 
-    (this.router.isActive('/tabs/tab3', true) && this.router.url === '/tabs/tab3')) {
+    (this.router.isActive('/tabs/tab3', true) && this.router.url === '/tabs/tab3') ||
+    (this.router.isActive('/tabs/inbox', true) && this.router.url === '/tabs/inbox')) {
       navigator['app'].exitApp();
     }
     }); } 
@@ -159,6 +169,11 @@ export class TabsPage implements OnInit{
       title: 'Calendar',
       url: '/tabs/tab3',
       icon: 'calendar'
+    },
+    {
+      title: 'Chats',
+      url: '/tabs/inbox',
+      icon: 'chatbox-ellipses'
     }]
   }
 
