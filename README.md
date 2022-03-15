@@ -1,2 +1,2 @@
-# newChoices
-This is a new version of choices (an application to challenge addiction)
+# Choices
+An application to challenge addiction by helping drug and alcohol addicts recover
