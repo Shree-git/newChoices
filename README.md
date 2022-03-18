@@ -4,9 +4,9 @@ An application to challenge addiction by helping drug and alcohol addicts recove
 Made using Angular.
 
 3 interfaces
--For client
-- For admin
-- For therapist
+1. For client
+2. For admin
+3. For therapist
 
 Features for the client:
 - Record Journal (CRUD)
