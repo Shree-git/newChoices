@@ -4,7 +4,7 @@ An application to challenge addiction by helping drug and alcohol addicts recove
 Made using Angular.
 
 3 interfaces
-- For client
+* For client
 - For admin
 - For therapist
 
