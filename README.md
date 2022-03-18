@@ -1,6 +1,8 @@
 # Choices
 An application to challenge addiction by helping drug and alcohol addicts recover.
 
+Live demo: https://choicesnew-a0046.web.app/
+
 Made using Angular.
 
 3 interfaces
